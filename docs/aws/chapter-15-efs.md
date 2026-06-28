@@ -4,9 +4,6 @@ sidebar_position: 15
 description: "By the end of this chapter, you will be able to: Explain what EFS is and how it differs from EBS"
 ---
 
-
----
-
 ## 📖 Story First
 
 Remember the student's personal locker from the last chapter?

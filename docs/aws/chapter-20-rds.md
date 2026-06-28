@@ -4,9 +4,6 @@ sidebar_position: 20
 description: "By the end of this chapter, you will be able to: Explain what RDS is and the database engines it supports"
 ---
 
-
----
-
 ## 📖 Story First
 
 Every school has an official **record keeper**.

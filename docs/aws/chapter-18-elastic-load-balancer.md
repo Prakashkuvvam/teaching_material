@@ -4,9 +4,6 @@ sidebar_position: 18
 description: "By the end of this chapter, you will be able to: Explain what an Elastic Load Balancer (ELB) is and why it is needed"
 ---
 
-
----
-
 ## 📖 Story First
 
 Imagine a large school with a single front desk receptionist.

@@ -4,9 +4,6 @@ sidebar_position: 22
 description: "By the end of this chapter, you will be able to: Explain what CloudWatch is and why monitoring matters"
 ---
 
-
----
-
 ## 📖 Story First
 
 It is exam week at the school.

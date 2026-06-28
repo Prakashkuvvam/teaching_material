@@ -4,9 +4,6 @@ sidebar_position: 4
 description: "By the end of this chapter, you will be able to: Explain what a VPC is in simple terms"
 ---
 
-
----
-
 ## 📖 Story First
 
 Our school campus has been set up in Mumbai.

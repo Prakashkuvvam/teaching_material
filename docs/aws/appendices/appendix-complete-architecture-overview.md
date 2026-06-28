@@ -3,11 +3,6 @@ title: "Complete Architecture Overview"
 sidebar_position: 1
 ---
 
-# COMPLETE ARCHITECTURE OVERVIEW
-## Everything Together — The Full School
-
----
-
 Now that we have covered the major components, let us put it all together and see the complete picture of how a production AWS architecture looks — using our school analogy one final time.
 
 ```

@@ -3,8 +3,6 @@ title: "Quick Revision Sheet"
 sidebar_position: 4
 ---
 
-# QUICK REVISION SHEET
-
 ```
 ╔════════════════════════════════════════════════════════════╗
 ║              AWS CONCEPTS AT A GLANCE                     ║

@@ -4,9 +4,6 @@ sidebar_position: 9
 description: "By the end of this chapter, you will be able to: Explain what a NAT Gateway is"
 ---
 
-
----
-
 ## 📖 Story First
 
 The school has a main gate for public visitors.

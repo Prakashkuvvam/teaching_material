@@ -4,9 +4,6 @@ sidebar_position: 24
 description: "Learn about building a complete aws architecture"
 ---
 
-
----
-
 ## 🎯 Chapter Goal
 
 You have learned 23 individual AWS services. Now it is time to put every single piece together and see how they interact in a real-world, production-ready architecture.
@@ -217,55 +214,60 @@ Let us walk through every service in this architecture and see how it maps to ou
 ║  │  ports 1024-65535 from VPC CIDR."                                             │      ║
 ║  └───────────────────────────────────────────────────────────────────────────────┘      ║
 ║                                                                                         ║
-║  ┌────── CHAPTER 12-13: EC2 & EBS ───────────────────────────────────────────────┐      ║
-║  │  EC2 instances are the students — they do the actual computing work. Web       │      ║
-║  │  servers run Nginx/Apache. App servers run the backend code. EBS volumes       │      ║
-║  │  are their lockers — storage attached to each server.                          │      ║
-║  └───────────────────────────────────────────────────────────────────────────────┘      ║
+║  ┌────── CHAPTER 12: EC2 ───────────────────────────────────────────────────────┐      ║
+│  EC2 instances are the students — they do the actual computing work. Web       │      ║
+│  servers run Nginx/Apache. App servers run the backend code. AMIs provide the   │      ║
+│  pre-configured template for launching these instances consistently.           │      ║
+└───────────────────────────────────────────────────────────────────────────────┘      ║
 ║                                                                                         ║
-║  ┌────── CHAPTER 14: LOAD BALANCER (ELB/ALB) ───────────────────────────────────┐      ║
+║  ┌────── CHAPTER 13-14: AMI & EBS ─────────────────────────────────────────────┐      ║
+│  AMIs are the master computer images — pre-installed software ready for new    │      ║
+│  students. EBS volumes are the students' lockers — persistent block storage    │      ║
+│  attached to each EC2 instance. Snapshots back up locker contents.             │      ║
+└───────────────────────────────────────────────────────────────────────────────┘      ║
+║                                                                                         ║
+║  ┌────── CHAPTER 15: EFS ───────────────────────────────────────────────────────┐      ║
+│  The school library — shared file storage that multiple EC2 instances can       │      ║
+│  mount simultaneously across different Availability Zones. Unlike EBS, EFS     │      ║
+│  is accessible from anywhere on campus and scales automatically.               │      ║
+└───────────────────────────────────────────────────────────────────────────────┘      ║
+║                                                                                         ║
+║  ┌────── CHAPTER 16: S3 ────────────────────────────────────────────────────────┐      ║
+│  The central document archive. Stores all static files — product images,        │      ║
+│  CSS/JS assets, backups, CloudTrail logs. Practically unlimited storage,       │      ║
+│  99.999999999% durability. Lifecycle rules move old files to Glacier.          │      ║
+└───────────────────────────────────────────────────────────────────────────────┘      ║
+║                                                                                         ║
+║  ┌────── CHAPTER 17: IAM ───────────────────────────────────────────────────────┐      ║
+│  The school ID management system. Every person has a role: Principal (root),   │      ║
+│  Teachers (developers), Students (apps). Each gets only the permissions they    │      ║
+│  need. EC2 instances assume IAM Roles to access S3 and RDS.                   │      ║
+└───────────────────────────────────────────────────────────────────────────────┘      ║
+║                                                                                         ║
+║  ┌────── CHAPTER 18: LOAD BALANCER (ELB/ALB) ───────────────────────────────────┐      ║
 ║  │  The school receptionist. When 50,000 visitors arrive, the receptionist        │      ║
 ║  │  distributes them evenly across all available classrooms so no single room     │      ║
 ║  │  is overloaded. Also performs health checks — only sends visitors to          │      ║
 ║  │  classrooms that are open and functioning.                                    │      ║
 ║  └───────────────────────────────────────────────────────────────────────────────┘      ║
 ║                                                                                         ║
-║  ┌────── CHAPTER 15: AUTO SCALING ───────────────────────────────────────────────┐      ║
+║  ┌────── CHAPTER 19: AUTO SCALING ───────────────────────────────────────────────┐      ║
 ║  │  During exam season (high traffic), the school automatically hires temporary    │      ║
 ║  │  teachers and opens more classrooms. During holidays (low traffic), it          │      ║
 ║  │  releases them. No human decides — the system does it automatically based      │      ║
 ║  │  on rules (CPU > 70% → add more EC2 instances).                               │      ║
 ║  └───────────────────────────────────────────────────────────────────────────────┘      ║
 ║                                                                                         ║
-║  ┌────── CHAPTER 16: RDS ───────────────────────────────────────────────────────┐      ║
+║  ┌────── CHAPTER 20: RDS ───────────────────────────────────────────────────────┐      ║
 ║  │  The school library. All data is stored here — student records, orders,         │      ║
 ║  │  inventory. RDS manages the database for us (backups, patching, replication).   │      ║
 ║  │  Multi-AZ deployment: library in Building A has a backup copy in Building B.   │      ║
 ║  └───────────────────────────────────────────────────────────────────────────────┘      ║
 ║                                                                                         ║
-║  ┌────── CHAPTER 17: IAM ───────────────────────────────────────────────────────┐      ║
-║  │  The school ID management system. Every person has a role: Principal (root),   │      ║
-║  │  Teachers (developers), Students (apps). Each gets only the permissions they    │      ║
-║  │  need. EC2 instances assume IAM Roles to access S3 and RDS.                   │      ║
-║  └───────────────────────────────────────────────────────────────────────────────┘      ║
-║                                                                                         ║
-║  ┌────── CHAPTER 18: S3 ────────────────────────────────────────────────────────┐      ║
-║  │  The central document storage / library. Stores all static files — product      │      ║
-║  │  images, CSS/JS assets, backups, CloudTrail logs. Practically unlimited        │      ║
-║  │  storage, 99.999999999% durability. Lifecycle rules move old files to          │      ║
-║  │  Glacier (cold storage) after 90 days.                                        │      ║
-║  └───────────────────────────────────────────────────────────────────────────────┘      ║
-║                                                                                         ║
-║  ┌────── CHAPTER 19: ROUTE 53 ───────────────────────────────────────────────────┐      ║
+║  ┌────── CHAPTER 21: ROUTE 53 ───────────────────────────────────────────────────┐      ║
 ║  │  The school directory / phonebook. When a user types "notebookly.com," R53      │      ║
 ║  │  looks up the IP address of our load balancer and directs the user there.      │      ║
 ║  │  Also provides health checks and routing policies (latency, geo, failover).   │      ║
-║  └───────────────────────────────────────────────────────────────────────────────┘      ║
-║                                                                                         ║
-║  ┌────── CHAPTER 20-21: ADDITIONAL SERVICES ─────────────────────────────────────┐      ║
-║  │  Lambda (serverless) — like a tutor who only shows up when needed.             │      ║
-║  │  VPC Peering — connecting two campuses together.                               │      ║
-║  │  CloudFront — edge cache, like putting popular books in small local libraries. │      ║
 ║  └───────────────────────────────────────────────────────────────────────────────┘      ║
 ║                                                                                         ║
 ║  ┌────── CHAPTER 22: CLOUDWATCH ────────────────────────────────────────────────┐      ║

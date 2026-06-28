@@ -3,8 +3,6 @@ title: "School → AWS Mapping Reference"
 sidebar_position: 2
 ---
 
-# COMPLETE SCHOOL → AWS MAPPING REFERENCE
-
 ```
 ╔══════════════════════════════════════════════════════════════╗
 ║            COMPLETE SCHOOL ←→ AWS MAPPING                   ║

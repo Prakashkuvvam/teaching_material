@@ -4,9 +4,6 @@ sidebar_position: 19
 description: "By the end of this chapter, you will be able to: Explain what Auto Scaling is and why it matters"
 ---
 
-
----
-
 ## 📖 Story First
 
 The school year starts with 30 students in each class. That is perfect. The classrooms are comfortable, teachers can manage everyone, and there is enough space for everyone.

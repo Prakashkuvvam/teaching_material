@@ -4,9 +4,6 @@ sidebar_position: 7
 description: "By the end of this chapter, you will be able to: Explain what a Route Table is"
 ---
 
-
----
-
 ## 📖 Story First
 
 The school campus now has clearly divided sections — Science Wing, Arts Wing, Administrative Block, and so on.

@@ -4,9 +4,6 @@ sidebar_position: 21
 description: "By the end of this chapter, you will be able to: Explain what DNS is and what Route 53 does"
 ---
 
-
----
-
 ## 📖 Story First
 
 Every school has a **school directory** or a **phone book**.

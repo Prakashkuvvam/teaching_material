@@ -4,9 +4,6 @@ sidebar_position: 8
 description: "By the end of this chapter, you will be able to: Explain what an Internet Gateway is"
 ---
 
-
----
-
 ## 📖 Story First
 
 The school campus has walls around it. The sections inside are organized. The signboards (Route Tables) tell everyone where to go.

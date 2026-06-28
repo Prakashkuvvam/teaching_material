@@ -4,9 +4,6 @@ sidebar_position: 13
 description: "By the end of this chapter, you will be able to: Explain what an AMI is and why it matters"
 ---
 
-
----
-
 ## 📖 Story First
 
 The school has been running for a while now. Every new student who joins needs the same setup: a desk, a chair, textbooks, a locker combination, and school software installed on their assigned computer.

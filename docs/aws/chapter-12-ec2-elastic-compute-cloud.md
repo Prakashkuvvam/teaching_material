@@ -4,9 +4,6 @@ sidebar_position: 12
 description: "By the end of this chapter, you will be able to: Explain what an EC2 instance is"
 ---
 
-
----
-
 ## 📖 Story First
 
 The school is fully set up. The campus is ready (VPC). The sections are defined (Subnets). The directions are in place (Route Tables). The main gate is installed (Internet Gateway). The security guards are positioned (Security Groups and NACLs).

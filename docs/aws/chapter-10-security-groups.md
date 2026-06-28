@@ -4,9 +4,6 @@ sidebar_position: 10
 description: "By the end of this chapter, you will be able to: Explain what a Security Group is"
 ---
 
-
----
-
 ## 📖 Story First
 
 Think about the school's Science Laboratory.

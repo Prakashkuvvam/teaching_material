@@ -4,9 +4,6 @@ sidebar_position: 6
 description: "By the end of this chapter, you will be able to: Understand what an IP address is"
 ---
 
-
----
-
 ## 📖 Story First
 
 The school has a campus (VPC) and sections within it (Subnets). Now every student, teacher, and room in the school needs an address — so we can find them and communicate with them.

@@ -4,9 +4,6 @@ sidebar_position: 2
 description: "By the end of this chapter, you will be able to: Explain what AWS is and who created it"
 ---
 
-
----
-
 ## 📖 Story First
 
 After learning about cloud computing, Rahul asks:

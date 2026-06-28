@@ -4,9 +4,6 @@ sidebar_position: 23
 description: "By the end of this chapter, you will be able to: Explain what CloudTrail is and why it matters"
 ---
 
-
----
-
 ## 📖 Story First
 
 The school has grown to be very large. Hundreds of staff members, thousands of students, dozens of buildings.

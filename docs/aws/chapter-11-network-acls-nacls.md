@@ -4,9 +4,6 @@ sidebar_position: 11
 description: "By the end of this chapter, you will be able to: Explain what a Network ACL is"
 ---
 
-
----
-
 ## 📖 Story First
 
 Security Groups are like guards at each individual room's door.

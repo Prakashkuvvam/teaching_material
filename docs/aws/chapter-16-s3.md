@@ -4,9 +4,6 @@ sidebar_position: 16
 description: "By the end of this chapter, you will be able to: Explain what S3 is and the bucket/object model"
 ---
 
-
----
-
 ## 📖 Story First
 
 The school has evolved. Lockers (EBS) are for personal storage. The library (EFS) is for shared files between classrooms. But the school has a bigger problem now.

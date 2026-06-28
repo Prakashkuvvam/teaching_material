@@ -3,8 +3,6 @@ title: "Learning Path"
 sidebar_position: 3
 ---
 
-# LEARNING PATH — WHAT TO DO NEXT
-
 ```
 BEGINNER PATH (0-3 Months):
 ━━━━━━━━━━━━━━━━━━━━━━━━━━

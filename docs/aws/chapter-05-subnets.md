@@ -4,9 +4,6 @@ sidebar_position: 5
 description: "By the end of this chapter, you will be able to: Explain what a Subnet is"
 ---
 
-
----
-
 ## 📖 Story First
 
 Now that the school campus has a boundary (our VPC), let us look inside the campus.

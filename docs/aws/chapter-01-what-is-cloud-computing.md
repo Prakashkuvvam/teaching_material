@@ -4,9 +4,6 @@ sidebar_position: 1
 description: "By the end of this chapter, you will be able to: Explain what cloud computing is in simple words"
 ---
 
-
----
-
 ## 📖 Story First
 
 Meet **Rahul**.

@@ -58,27 +58,27 @@ When you create a VPC, you are creating a **virtual network** that belongs only 
 
 Think of it as building your own private network — like your home WiFi network — but hosted inside AWS.
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                        AWS CLOUD                            │
-│                                                             │
-│  ┌───────────────────────────────────────────────────────┐  │
-│  │                    YOUR VPC                           │  │
-│  │           (Your Private Network Space)                │  │
-│  │                                                       │  │
-│  │   Your servers, databases, and applications           │  │
-│  │   live inside here. Safe and private.                 │  │
-│  │                                                       │  │
-│  └───────────────────────────────────────────────────────┘  │
-│                                                             │
-│  ┌───────────────┐      ┌───────────────┐                   │
-│  │  Another      │      │  Another      │                   │
-│  │  Company's    │      │  Company's    │                   │
-│  │  VPC          │      │  VPC          │                   │
-│  └───────────────┘      └───────────────┘                   │
-│                                                             │
-│  These VPCs cannot see each other by default               │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph AWS["☁️ AWS Cloud"]
+        direction TB
+        subgraph VPC1["Your VPC — Your Private Network Space"]
+            direction TB
+            VPC1_Content["Your servers, databases,<br/>and applications live here.<br/>Safe and private."]
+        end
+        subgraph VPC2["Another Company's VPC"]
+            VPC2_Content["Their isolated resources"]
+        end
+        subgraph VPC3["Another Company's VPC"]
+            VPC3_Content["Their isolated resources"]
+        end
+    end
+    Note["These VPCs cannot see each other by default"]
+    style AWS fill:#1a1a2e,color:#fff,stroke:#ff9900,stroke-width:2px
+    style VPC1 fill:#0d1b2a,color:#fff,stroke:#2ecc40,stroke-width:2px
+    style VPC2 fill:#0d1b2a,color:#fff,stroke:#e74c3c,stroke-width:1px
+    style VPC3 fill:#0d1b2a,color:#fff,stroke:#3498db,stroke-width:1px
+    style Note fill:transparent,color:#ff9900,stroke:none
 ```
 
 ---
@@ -177,27 +177,34 @@ STEP 6: Click "Create VPC"
 
 ## ❓ Quick Quiz
 
-**Question 1:** What is a VPC?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) A physical server in AWS
-B) Your private, isolated section of the AWS cloud network
-C) A type of storage service
-D) An AWS database
-```
-**Answer: B**
-
----
-
-**Question 2:** How many VPCs does AWS create automatically when you create a new account?
-
-```
-A) Zero
-B) One per Region
-C) One per Availability Zone
-D) Five per Region
-```
-**Answer: B** — AWS automatically creates one Default VPC in each Region.
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "What is a VPC?",
+        "options": [
+            "A physical server in AWS",
+            "Your private, isolated section of the AWS cloud network",
+            "A type of storage service",
+            "An AWS database"
+        ],
+        "correct": 1,
+        "explanation": ""
+    },
+    {
+        "id": 2,
+        "question": "How many VPCs does AWS create automatically when you create a new account?",
+        "options": [
+            "Zero",
+            "One per Region",
+            "One per Availability Zone",
+            "Five per Region"
+        ],
+        "correct": 1,
+        "explanation": "AWS automatically creates one Default VPC in each Region."
+    }
+]} />
 
 ---
 

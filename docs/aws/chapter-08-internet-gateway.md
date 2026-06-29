@@ -81,30 +81,25 @@ Key facts:
 
 Let us trace exactly what happens when someone in the world opens your website hosted on AWS.
 
-```
-USER IN LONDON types: www.myschool.com
-        │
-        ▼
-    INTERNET
-        │
-        ▼
-┌───────────────────────────────────────────────────────┐
-│                       VPC                             │
-│                                                       │
-│  ┌─────────────────┐                                 │
-│  │ INTERNET GATEWAY│  ← Traffic arrives here first   │
-│  └────────┬────────┘                                 │
-│           │                                           │
-│           ▼  Route Table says: 0.0.0.0/0 → IGW      │
-│  ┌─────────────────────┐                             │
-│  │    PUBLIC SUBNET    │                             │
-│  │   ┌─────────────┐   │                             │
-│  │   │  Web Server │   │  ← Request reaches here    │
-│  │   │  (EC2)      │   │                             │
-│  │   └─────────────┘   │                             │
-│  └─────────────────────┘                             │
-│                                                       │
-└───────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    User["👤 User in London<br/>types: www.myschool.com"]
+    Internet["🌍 Internet"]
+    IGW["Internet Gateway"]
+    VPC_Label
+    PubSub["🟢 Public Subnet"]
+    EC2["🖥️ Web Server (EC2)"]
+    
+    User -->|"Request travels"| Internet
+    Internet -->|"Arrives at VPC"| IGW
+    IGW -->|"Route Table: 0.0.0.0/0 → IGW"| PubSub
+    PubSub --> EC2
+    
+    style User fill:#ff9900,color:#000
+    style Internet fill:#2d3748,color:#fff
+    style IGW fill:#e74c3c,color:#fff
+    style PubSub fill:#1a6b1a,color:#fff
+    style EC2 fill:#3498db,color:#fff
 ```
 
 ---
@@ -165,28 +160,34 @@ STEP 4: Verify Route Table
 
 ## ❓ Quick Quiz
 
-**Question 1:** How many Internet Gateways can you attach to a VPC?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) Unlimited
-B) One per Availability Zone
-C) Exactly one
-D) Two for High Availability
-```
-**Answer: C** — One IGW per VPC.
-
----
-
-**Question 2:** A server in a Private Subnet wants to access the internet directly. Can it do so using an Internet Gateway?
-
-```
-A) Yes, through the Internet Gateway
-B) No, Private Subnets cannot use the Internet Gateway
-   directly
-C) Yes, but only for outgoing traffic
-D) Yes, if we give it a public IP
-```
-**Answer: B** — Private Subnets need a NAT Gateway for outbound internet access. Direct Internet Gateway access is only for Public Subnets.
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "How many Internet Gateways can you attach to a VPC?",
+        "options": [
+            "Unlimited",
+            "One per Availability Zone",
+            "Exactly one",
+            "Two for High Availability"
+        ],
+        "correct": 2,
+        "explanation": "One IGW per VPC."
+    },
+    {
+        "id": 2,
+        "question": "A server in a Private Subnet wants to access the internet directly. Can it do so using an Internet Gateway?",
+        "options": [
+            "Yes, through the Internet Gateway",
+            "No, Private Subnets cannot use the Internet Gateway",
+            "Yes, but only for outgoing traffic",
+            "Yes, if we give it a public IP"
+        ],
+        "correct": 1,
+        "explanation": "Private Subnets need a NAT Gateway for outbound internet access. Direct Internet Gateway access is only for Public Subnets."
+    }
+]} />
 
 ---
 

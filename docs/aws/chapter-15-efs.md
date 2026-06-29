@@ -275,28 +275,34 @@ STEP 13: (Optional) Make the mount persistent:
 
 ## ❓ Quick Quiz
 
-**Question 1:** You have a web application with 10 EC2 instances that all need to read and write the same files. Which storage solution is BEST?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) EBS with one volume attached to each instance
-B) EFS (shared file system)
-C) Instance Store on each instance
-D) A single EBS volume attached to one instance,
-   other instances SSH to that instance
-```
-**Answer: B** — EFS is designed for exactly this scenario: multiple EC2 instances sharing the same file system simultaneously across AZs.
-
----
-
-**Question 2:** How does EFS differ from EBS in terms of availability across Availability Zones?
-
-```
-A) EBS can be accessed across AZs; EFS cannot
-B) EFS is accessible across AZs; EBS is tied to one AZ
-C) Both are accessible across AZs
-D) Neither is accessible across AZs
-```
-**Answer: B** — EFS can be mounted from EC2 instances in any AZ within the same VPC region (via mount targets in each AZ). EBS volumes are tied to the specific AZ they were created in.
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "You have a web application with 10 EC2 instances that all need to read and write the same files. Which storage solution is BEST?",
+        "options": [
+            "EBS with one volume attached to each instance",
+            "EFS (shared file system)",
+            "Instance Store on each instance",
+            "A single EBS volume attached to one instance,"
+        ],
+        "correct": 1,
+        "explanation": "EFS is designed for exactly this scenario: multiple EC2 instances sharing the same file system simultaneously across AZs."
+    },
+    {
+        "id": 2,
+        "question": "How does EFS differ from EBS in terms of availability across Availability Zones?",
+        "options": [
+            "EBS can be accessed across AZs; EFS cannot",
+            "EFS is accessible across AZs; EBS is tied to one AZ",
+            "Both are accessible across AZs",
+            "Neither is accessible across AZs"
+        ],
+        "correct": 1,
+        "explanation": "EFS can be mounted from EC2 instances in any AZ within the same VPC region (via mount targets in each AZ). EBS volumes are tied to the specific AZ they were created in."
+    }
+]} />
 
 ---
 

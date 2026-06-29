@@ -225,27 +225,34 @@ STEP 10: Get connection details:
 
 ## ❓ Quick Quiz
 
-**Question 1:** You need your database to automatically failover to a standby if the primary fails. Which feature should you use?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) Read Replica
-B) Multi-AZ deployment
-C) Automated backups
-D) Manual snapshot
-```
-**Answer: B** — Multi-AZ provisions a standby replica in a different AZ. If the primary fails, RDS automatically fails over to the standby with no manual intervention.
-
----
-
-**Question 2:** What is the maximum retention period for automated backups in RDS?
-
-```
-A) 7 days
-B) 15 days
-C) 35 days
-D) Indefinitely (until you delete)
-```
-**Answer: C** — Automated backups can be retained for up to 35 days. If you need backups for longer than 35 days, take a manual snapshot (which is retained indefinitely).
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "You need your database to automatically failover to a standby if the primary fails. Which feature should you use?",
+        "options": [
+            "Read Replica",
+            "Multi-AZ deployment",
+            "Automated backups",
+            "Manual snapshot"
+        ],
+        "correct": 1,
+        "explanation": "Multi-AZ provisions a standby replica in a different AZ. If the primary fails, RDS automatically fails over to the standby with no manual intervention."
+    },
+    {
+        "id": 2,
+        "question": "What is the maximum retention period for automated backups in RDS?",
+        "options": [
+            "7 days",
+            "15 days",
+            "35 days",
+            "Indefinitely (until you delete)"
+        ],
+        "correct": 2,
+        "explanation": "Automated backups can be retained for up to 35 days. If you need backups for longer than 35 days, take a manual snapshot (which is retained indefinitely)."
+    }
+]} />
 
 ---
 

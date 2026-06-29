@@ -250,28 +250,34 @@ STEP 5: Click "Create security group"
 
 ## ❓ Quick Quiz
 
-**Question 1:** What is the default inbound rule for a new Security Group?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) Allow all traffic
-B) Deny all traffic
-C) Allow only HTTP traffic
-D) Allow only from within the VPC
-```
-**Answer: B** — By default, all inbound traffic is denied.
-
----
-
-**Question 2:** What does "stateful" mean for Security Groups?
-
-```
-A) Security Groups never change
-B) If inbound traffic is allowed, the response
-   automatically goes out without an extra rule
-C) All traffic is blocked by default
-D) Rules apply to both subnets and instances
-```
-**Answer: B**
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "What is the default inbound rule for a new Security Group?",
+        "options": [
+            "Allow all traffic",
+            "Deny all traffic",
+            "Allow only HTTP traffic",
+            "Allow only from within the VPC"
+        ],
+        "correct": 1,
+        "explanation": "By default, all inbound traffic is denied."
+    },
+    {
+        "id": 2,
+        "question": "What does \"stateful\" mean for Security Groups?",
+        "options": [
+            "Security Groups never change",
+            "If inbound traffic is allowed, the response",
+            "All traffic is blocked by default",
+            "Rules apply to both subnets and instances"
+        ],
+        "correct": 1,
+        "explanation": ""
+    }
+]} />
 
 ---
 

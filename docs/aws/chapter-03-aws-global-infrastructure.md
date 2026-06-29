@@ -92,22 +92,29 @@ The AZs in a Region are:
 - Connected with ultra-fast private fiber cables
 - Designed so that a disaster in one AZ does not affect others
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                REGION: ap-south-1 (Mumbai)              │
-│                                                         │
-│  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐   │
-│  │      AZ-1    │ │      AZ-2    │ │     AZ-3     │   │
-│  │  ap-south-1a │ │  ap-south-1b │ │ ap-south-1c  │   │
-│  │              │ │              │ │              │   │
-│  │ 🏢 Data      │ │ 🏢 Data      │ │ 🏢 Data     │   │
-│  │    Center    │ │    Center    │ │    Center   │   │
-│  │              │ │              │ │              │   │
-│  └──────┬───────┘ └──────┬───────┘ └──────┬──────┘   │
-│         │                │                │           │
-│         └────────────────┴────────────────┘           │
-│              High-Speed Private Connection             │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph Region["REGION: ap-south-1 (Mumbai)"]
+        subgraph AZ1["AZ-1 (ap-south-1a)"]
+            DC1["🏢 Data Center"]
+        end
+        subgraph AZ2["AZ-2 (ap-south-1b)"]
+            DC2["🏢 Data Center"]
+        end
+        subgraph AZ3["AZ-3 (ap-south-1c)"]
+            DC3["🏢 Data Center"]
+        end
+        AZ1 ----|"High-Speed Private Connection"| AZ2
+        AZ2 ---- AZ3
+        AZ1 -.- AZ3
+    end
+    style Region fill:#1a1a2e,color:#fff,stroke:#ff9900,stroke-width:2px
+    style AZ1 fill:#0d1b2a,color:#fff,stroke:#3498db,stroke-width:1px
+    style AZ2 fill:#0d1b2a,color:#fff,stroke:#2ecc40,stroke-width:1px
+    style AZ3 fill:#0d1b2a,color:#fff,stroke:#e74c3c,stroke-width:1px
+    style DC1 fill:#1a3a6b,color:#fff
+    style DC2 fill:#1a3a6b,color:#fff
+    style DC3 fill:#1a3a6b,color:#fff
 ```
 
 ---
@@ -172,64 +179,69 @@ Think of Edge Locations like the school's **satellite resource centers** placed 
 
 Edge Locations are used by **CloudFront (AWS's CDN service)** to deliver content to users at very high speed from a location closest to them.
 
-```
-┌──────────────────────────────────────────────────┐
-│         AWS INFRASTRUCTURE HIERARCHY             │
-│                                                  │
-│  AWS Global Platform                            │
-│       │                                          │
-│       ├── Region (Mumbai)                        │
-│       │       ├── Availability Zone A            │
-│       │       ├── Availability Zone B            │
-│       │       └── Availability Zone C            │
-│       │                                          │
-│       ├── Region (Singapore)                     │
-│       │       ├── Availability Zone A            │
-│       │       └── Availability Zone B            │
-│       │                                          │
-│       └── Edge Locations (400+ worldwide)        │
-│               └── Content Delivery (CloudFront)  │
-└──────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    AWS["AWS Global Platform"]
+    AWS --> Mumbai["🌏 Region — Mumbai (ap-south-1)"]
+    AWS --> Singapore["🌏 Region — Singapore (ap-southeast-1)"]
+    AWS --> Ellipsis["... 30+ regions worldwide"]
+    AWS --> Edge["📍 Edge Locations (400+)"]
+    Mumbai --> AZ1["Available AZ-A"]
+    Mumbai --> AZ2["Available AZ-B"]
+    Mumbai --> AZ3["Available AZ-C"]
+    Singapore --> AZ1S["Available AZ-A"]
+    Singapore --> AZ2S["Available AZ-B"]
+    Edge --> CF["CloudFront CDN"]
+    style AWS fill:#ff9900,color:#000,stroke:#cc7a00,stroke-width:2px
+    style Mumbai fill:#1a1a2e,color:#fff,stroke:#ff9900
+    style Singapore fill:#1a1a2e,color:#fff,stroke:#ff9900
+    style Edge fill:#1a1a2e,color:#fff,stroke:#ff9900
 ```
 
 ---
 
 ## ❓ Quick Quiz
 
-**Question 1:** What is an AWS Region?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) A single server in a data center
-B) A physical location in the world with AWS infrastructure
-C) A virtual machine
-D) A storage bucket
-```
-**Answer: B**
-
----
-
-**Question 2:** Why does AWS have multiple Availability Zones in each Region?
-
-```
-A) To make AWS more expensive
-B) To confuse beginners
-C) To ensure that a failure in one location does not
-   take down the entire infrastructure
-D) To reduce the number of servers needed
-```
-**Answer: C**
-
----
-
-**Question 3:** Your application serves users in India. Which Region should you use?
-
-```
-A) us-east-1 (N.Virginia)
-B) eu-west-1 (Ireland)
-C) ap-south-1 (Mumbai)
-D) ap-northeast-1 (Tokyo)
-```
-**Answer: C** — Mumbai is closest to Indian users, giving the lowest latency.
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "What is an AWS Region?",
+        "options": [
+            "A single server in a data center",
+            "A physical location in the world with AWS infrastructure",
+            "A virtual machine",
+            "A storage bucket"
+        ],
+        "correct": 1,
+        "explanation": ""
+    },
+    {
+        "id": 2,
+        "question": "Why does AWS have multiple Availability Zones in each Region?",
+        "options": [
+            "To make AWS more expensive",
+            "To confuse beginners",
+            "To ensure that a failure in one location does not",
+            "To reduce the number of servers needed"
+        ],
+        "correct": 2,
+        "explanation": ""
+    },
+    {
+        "id": 3,
+        "question": "Your application serves users in India. Which Region should you use?",
+        "options": [
+            "us-east-1 (N.Virginia)",
+            "eu-west-1 (Ireland)",
+            "ap-south-1 (Mumbai)",
+            "ap-northeast-1 (Tokyo)"
+        ],
+        "correct": 2,
+        "explanation": "Mumbai is closest to Indian users, giving the lowest latency."
+    }
+]} />
 
 ---
 

@@ -87,24 +87,31 @@ By the end of this chapter, you will be able to:
 
 When a request comes in from the internet:
 
-```
-INTERNET REQUEST
-      │
-      ▼
- INTERNET GATEWAY
-      │
-      ▼
-  NETWORK ACL   ← First check (Subnet level)
-  (Check inbound rules)
-      │
-      │  If ALLOWED...
-      ▼
- SECURITY GROUP  ← Second check (Instance level)
-  (Check inbound rules)
-      │
-      │  If ALLOWED...
-      ▼
-  YOUR SERVER (EC2)
+```mermaid
+graph TB
+    TITLE["Order of Traffic Evaluation"]
+    INTERNET["🌐 Internet Request"]
+    IGW["Internet Gateway"]
+    NACL["🛡️ Network ACL<br/>First check — Subnet level<br/>Checks inbound rules"]
+    NACL_DENY["❌ Request Denied"]
+    SG_FW["🔒 Security Group<br/>Second check — Instance level<br/>Checks inbound rules"]
+    SG_DENY["❌ Request Denied"]
+    EC2["🖥️ Your Server (EC2)"]
+    
+    INTERNET --> IGW
+    IGW --> NACL
+    NACL -->|"🚫 If DENIED"| NACL_DENY
+    NACL -->|"✅ If ALLOWED"| SG_FW
+    SG_FW -->|"🚫 If DENIED"| SG_DENY
+    SG_FW -->|"✅ If ALLOWED"| EC2
+    
+    style INTERNET fill:#2d3748,color:#fff
+    style IGW fill:#ff9900,color:#000
+    style NACL fill:#e74c3c,color:#fff
+    style SG_FW fill:#2ecc40,color:#000
+    style EC2 fill:#3498db,color:#fff
+    style NACL_DENY fill:#6b1a1a,color:#fff
+    style SG_DENY fill:#6b1a1a,color:#fff
 ```
 
 Traffic must pass BOTH the NACL AND the Security Group to reach your server.
@@ -198,31 +205,34 @@ Protocol: TCP | Port: 1024-65535 | Destination: 0.0.0.0/0 | ALLOW
 
 ## ❓ Quick Quiz
 
-**Question 1:** A Network ACL has these rules:
-- Rule 100: DENY SSH from 0.0.0.0/0
-- Rule 200: ALLOW SSH from your IP
+import Quiz from '@site/src/components/Quiz';
 
-Can you SSH into your server?
-
-```
-A) Yes, because Rule 200 allows your IP
-B) No, because Rule 100 matches first and denies all SSH
-C) Yes, because your IP is whitelisted
-D) No, because SSH is not allowed in any NACL
-```
-**Answer: B** — Rules evaluated in number order. Rule 100 matches first.
-
----
-
-**Question 2:** What is the key difference between Security Groups and NACLs?
-
-```
-A) Security Groups cost more
-B) Security Groups are stateful, NACLs are stateless
-C) NACLs work at instance level, SGs at subnet level
-D) NACLs are older and less effective
-```
-**Answer: B**
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "A Network ACL has these rules: - Rule 100: DENY SSH from 0.0.0.0/0 - Rule 200: ALLOW SSH from your IP Can you SSH into your server?",
+        "options": [
+            "Yes, because Rule 200 allows your IP",
+            "No, because Rule 100 matches first and denies all SSH",
+            "Yes, because your IP is whitelisted",
+            "No, because SSH is not allowed in any NACL"
+        ],
+        "correct": 1,
+        "explanation": "Rules evaluated in number order. Rule 100 matches first."
+    },
+    {
+        "id": 2,
+        "question": "What is the key difference between Security Groups and NACLs?",
+        "options": [
+            "Security Groups cost more",
+            "Security Groups are stateful, NACLs are stateless",
+            "NACLs work at instance level, SGs at subnet level",
+            "NACLs are older and less effective"
+        ],
+        "correct": 1,
+        "explanation": ""
+    }
+]} />
 
 ---
 

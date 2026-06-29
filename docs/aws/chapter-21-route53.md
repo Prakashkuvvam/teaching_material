@@ -251,27 +251,34 @@ STEP 7: Test failover:
 
 ## ❓ Quick Quiz
 
-**Question 1:** You need to point `myschool.com` (zone apex) to an Application Load Balancer. Which record type should you use?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) CNAME record
-B) A record with ALIAS
-C) MX record
-D) TXT record
-```
-**Answer: B** — You cannot use a CNAME at the zone apex. Use an A record with ALIAS enabled to point the root domain to an AWS resource like an ALB.
-
----
-
-**Question 2:** You want to send 10% of your users to a new version of your application for testing. Which routing policy should you use?
-
-```
-A) Simple
-B) Failover
-C) Weighted
-D) Latency
-```
-**Answer: C** — Weighted routing allows you to distribute traffic across multiple endpoints by assigning weights (e.g., 10 for new version, 90 for old version).
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "You need to point `myschool.com` (zone apex) to an Application Load Balancer. Which record type should you use?",
+        "options": [
+            "CNAME record",
+            "A record with ALIAS",
+            "MX record",
+            "TXT record"
+        ],
+        "correct": 1,
+        "explanation": "You cannot use a CNAME at the zone apex. Use an A record with ALIAS enabled to point the root domain to an AWS resource like an ALB."
+    },
+    {
+        "id": 2,
+        "question": "You want to send 10% of your users to a new version of your application for testing. Which routing policy should you use?",
+        "options": [
+            "Simple",
+            "Failover",
+            "Weighted",
+            "Latency"
+        ],
+        "correct": 2,
+        "explanation": "Weighted routing allows you to distribute traffic across multiple endpoints by assigning weights (e.g., 10 for new version, 90 for old version)."
+    }
+]} />
 
 ---
 

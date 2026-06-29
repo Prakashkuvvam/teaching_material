@@ -220,32 +220,30 @@ S3 Versioning is a feature that keeps multiple versions of an object in the same
 
 Lifecycle rules automatically transition objects between storage classes or delete them after a specified time.
 
+```mermaid
+graph LR
+    Standard["📦 S3 Standard<br/>0–30 days"]
+    Glacier["❄️ S3 Glacier<br/>30–365 days"]
+    Deleted["🗑️ Delete<br/>after 365 days"]
+    
+    Standard -->|"Lifecycle rule<br/>auto-transitions"| Glacier
+    Glacier -->|"Lifecycle rule<br/>auto-deletes"| Deleted
+    
+    style Standard fill:#3498db,color:#fff
+    style Glacier fill:#1a6b1a,color:#fff
+    style Deleted fill:#e74c3c,color:#fff
 ```
-┌─────────────────────────────────────────────────────────┐
-│              S3 LIFECYCLE RULE EXAMPLE                  │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  Rule: "Move old data to Glacier and delete after 5 yrs"│
-│                                                         │
-│  ┌──────────────┐    ┌──────────────┐    ┌───────────┐ │
-│  │  S3 Standard  │───>│ S3 Glacier   │───>│  Delete   │ │
-│  │  (0-30 days)  │    │ (30-365 days)│    │ (after 365)│ │
-│  └──────────────┘    └──────────────┘    └───────────┘ │
-│                                                         │
-│  School analogy:                                        │
-│  - File created → on main shelf (Standard)             │
-│  - After 30 days → moved to back room (IA)             │
-│  - After 365 days → moved to archive (Glacier)         │
-│  - After 5 years → shredded (deleted)                  │
-│                                                         │
-│  Why use lifecycle rules?                               │
-│  → Automate data management                             │
-│  → Reduce costs (don't pay Standard prices for old data)│
-│  → Meet compliance requirements (auto-delete after X    │
-│     years)                                              │
-│                                                         │
-└─────────────────────────────────────────────────────────┘
-```
+
+School analogy:
+- File created → on main shelf (Standard)
+- After 30 days → moved to back room (IA)
+- After 365 days → moved to archive (Glacier)
+- After 5 years → shredded (deleted)
+
+Why use lifecycle rules?
+→ Automate data management
+→ Reduce costs (don't pay Standard prices for old data)
+→ Meet compliance requirements (auto-delete after X years)
 
 ---
 
@@ -387,28 +385,34 @@ STEP 12: (Optional) Clean up:
 
 ## ❓ Quick Quiz
 
-**Question 1:** You need to store CCTV footage that must be kept for 7 years. The footage will almost never be accessed after the first month. Which storage strategy is BEST?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) Store everything in S3 Standard
-B) Store in S3 Standard, use lifecycle rule to move to
-   Glacier after 30 days, delete after 7 years
-C) Store on an EC2 instance's EBS volume
-D) Store in EFS
-```
-**Answer: B** — Lifecycle rules allow automatic transition to cheaper storage (Glacier) for old data, with automatic deletion after the retention period. This minimizes cost while meeting compliance.
-
----
-
-**Question 2:** A user accidentally overwrites a critical file in S3. What feature allows recovery?
-
-```
-A) Recycle Bin
-B) S3 Versioning (if enabled)
-C) S3 Lifecycle Rules
-D) S3 Glacier
-```
-**Answer: B** — S3 Versioning keeps all versions of an object. If enabled, you can restore the previous version. Without versioning, the overwrite is permanent.
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "You need to store CCTV footage that must be kept for 7 years. The footage will almost never be accessed after the first month. Which storage strategy is BEST?",
+        "options": [
+            "Store everything in S3 Standard",
+            "Store in S3 Standard, use lifecycle rule to move to",
+            "Store on an EC2 instance's EBS volume",
+            "Store in EFS"
+        ],
+        "correct": 1,
+        "explanation": "Lifecycle rules allow automatic transition to cheaper storage (Glacier) for old data, with automatic deletion after the retention period. This minimizes cost while meeting compliance."
+    },
+    {
+        "id": 2,
+        "question": "A user accidentally overwrites a critical file in S3. What feature allows recovery?",
+        "options": [
+            "Recycle Bin",
+            "S3 Versioning (if enabled)",
+            "S3 Lifecycle Rules",
+            "S3 Glacier"
+        ],
+        "correct": 1,
+        "explanation": "S3 Versioning keeps all versions of an object. If enabled, you can restore the previous version. Without versioning, the overwrite is permanent."
+    }
+]} />
 
 ---
 

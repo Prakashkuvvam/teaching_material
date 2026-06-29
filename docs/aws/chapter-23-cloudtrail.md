@@ -376,64 +376,70 @@ STEP 8: Create trail → Click "Create trail"
 
 ## ❓ Quick Quiz
 
-**Question 1:** What is the primary purpose of AWS CloudTrail?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) To monitor CPU utilization of EC2 instances
-B) To record API calls made in your AWS account for auditing
-C) To store your application files
-D) To manage user permissions
-```
-**Answer: B** — CloudTrail records every API call for auditing, security investigation, and compliance.
-
----
-
-**Question 2:** How long is CloudTrail Event History available for free?
-
-```
-A) 7 days
-B) 30 days
-C) 90 days
-D) 1 year
-```
-**Answer: C** — CloudTrail Event History retains the last 90 days of management events for free. For longer retention, create a Trail that delivers logs to S3.
-
----
-
-**Question 3:** What is the difference between Management Events and Data Events?
-
-```
-A) Management Events are free, Data Events are paid
-B) Management Events track control plane (creating/deleting resources),
-   Data Events track operations on data within resources
-C) Management Events are stored in S3, Data Events are stored in CloudWatch
-D) There is no difference
-```
-**Answer: B** — Management events track operations like CreateVPC, RunInstances, DeleteUser. Data events track operations like S3 GetObject, Lambda Invoke, DynamoDB GetItem.
-
----
-
-**Question 4:** An IAM user deleted an important S3 bucket. How can you find out who did it and when?
-
-```
-A) Check EC2 dashboard
-B) Check CloudWatch CPU metrics
-C) Check CloudTrail Event History, filter by DeleteBucket
-D) Check IAM user list
-```
-**Answer: C** — CloudTrail Event History will show exactly which IAM user called the DeleteBucket API, the timestamp, source IP, and the result (success/failure).
-
----
-
-**Question 5:** You need to audit all API calls in your account for compliance purposes. You must retain logs for 3 years. How do you do this?
-
-```
-A) Enable CloudWatch billing alarms
-B) Create a CloudTrail Trail that delivers to S3
-C) Use AWS Config
-D) Enable VPC Flow Logs
-```
-**Answer: B** — A Trail delivers CloudTrail logs to S3 for long-term storage. S3 has configurable lifecycle policies for archiving to Glacier (low-cost) for years.
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "What is the primary purpose of AWS CloudTrail?",
+        "options": [
+            "To monitor CPU utilization of EC2 instances",
+            "To record API calls made in your AWS account for auditing",
+            "To store your application files",
+            "To manage user permissions"
+        ],
+        "correct": 1,
+        "explanation": "CloudTrail records every API call for auditing, security investigation, and compliance."
+    },
+    {
+        "id": 2,
+        "question": "How long is CloudTrail Event History available for free?",
+        "options": [
+            "7 days",
+            "30 days",
+            "90 days",
+            "1 year"
+        ],
+        "correct": 2,
+        "explanation": "CloudTrail Event History retains the last 90 days of management events for free. For longer retention, create a Trail that delivers logs to S3."
+    },
+    {
+        "id": 3,
+        "question": "What is the difference between Management Events and Data Events?",
+        "options": [
+            "Management Events are free, Data Events are paid",
+            "Management Events track control plane (creating/deleting resources),",
+            "Management Events are stored in S3, Data Events are stored in CloudWatch",
+            "There is no difference"
+        ],
+        "correct": 1,
+        "explanation": "Management events track operations like CreateVPC, RunInstances, DeleteUser. Data events track operations like S3 GetObject, Lambda Invoke, DynamoDB GetItem."
+    },
+    {
+        "id": 4,
+        "question": "An IAM user deleted an important S3 bucket. How can you find out who did it and when?",
+        "options": [
+            "Check EC2 dashboard",
+            "Check CloudWatch CPU metrics",
+            "Check CloudTrail Event History, filter by DeleteBucket",
+            "Check IAM user list"
+        ],
+        "correct": 2,
+        "explanation": "CloudTrail Event History will show exactly which IAM user called the DeleteBucket API, the timestamp, source IP, and the result (success/failure)."
+    },
+    {
+        "id": 5,
+        "question": "You need to audit all API calls in your account for compliance purposes. You must retain logs for 3 years. How do you do this?",
+        "options": [
+            "Enable CloudWatch billing alarms",
+            "Create a CloudTrail Trail that delivers to S3",
+            "Use AWS Config",
+            "Enable VPC Flow Logs"
+        ],
+        "correct": 1,
+        "explanation": "A Trail delivers CloudTrail logs to S3 for long-term storage. S3 has configurable lifecycle policies for archiving to Glacier (low-cost) for years."
+    }
+]} />
 
 ---
 

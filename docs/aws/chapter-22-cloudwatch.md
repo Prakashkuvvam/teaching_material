@@ -75,22 +75,37 @@ CloudWatch collects three main types of data:
 
 When you launch resources in AWS, many of them automatically send metrics to CloudWatch. An EC2 instance automatically reports CPU utilization, network throughput, and disk activity. An RDS database reports connection count, read/write latency, and free storage space. You do not need to install anything for these default metrics.
 
-```
-┌─────────────────────────────────────────────────────────┐
-│               CLOUDWATCH FACTS                          │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  • Metrics = Data about your AWS resources              │
-│  • Alarms = Trigger actions when thresholds breached    │
-│  • Logs = Centralized log storage for your apps         │
-│  • Dashboards = Custom monitoring views                 │
-│  • Default metrics: CPU, Network, Disk, Status Checks   │
-│  • Custom metrics: You can publish your own metrics     │
-│  • Retention: Metrics (15 months), Logs (configurable) │
-│  • Free Tier: 10 custom metrics, 1 GB of logs          │
-│                                                         │
-└─────────────────────────────────────────────────────────┘
-```
+```mermaid
+graph TB
+    subgraph AlarmFlow["How a CloudWatch Alarm Works"]
+        direction TB
+        A["1️⃣ Choose a metric<br/>(e.g., CPUUtilization)"]
+        B["2️⃣ Set a threshold<br/>(e.g., > 80%)"]
+        C["3️⃣ Set the duration<br/>(e.g., 2 consecutive<br/>data points × 5 min)"]
+        D["4️⃣ Choose an action<br/>(SNS email, stop EC2,<br/>trigger Auto Scaling)"]
+        E["5️⃣ Metric crosses threshold<br/>for specified period ↓"]
+        TRIGGER["⚡ ALARM FIRES — Action triggered!"]
+        
+        A --> B --> C --> D --> E --> TRIGGER
+    end
+    
+    subgraph States["Alarm States"]
+        OK["✅ OK<br/>Everything is normal"]
+        ALARM["⚠️ ALARM<br/>Threshold breached"]
+        INSUFF["📋 INSUFFICIENT_DATA<br/>Not enough data yet"]
+    end
+    
+    style AlarmFlow fill:#0d1b2a,color:#fff,stroke:#ff9900
+    style A fill:#1a3a6b,color:#fff
+    style B fill:#1a3a6b,color:#fff
+    style C fill:#1a3a6b,color:#fff
+    style D fill:#1a3a6b,color:#fff
+    style E fill:#1a3a6b,color:#fff
+    style TRIGGER fill:#e74c3c,color:#fff
+    style OK fill:#1a6b1a,color:#fff
+    style ALARM fill:#e74c3c,color:#fff
+    style INSUFF fill:#ff9900,color:#000
+
 
 ---
 
@@ -125,28 +140,33 @@ For an EC2 instance, CloudWatch automatically tracks:
 
 An **alarm** watches a single metric and triggers an action when the metric crosses a defined threshold for a specified period.
 
-```
-┌─────────────────────────────────────────────────────────┐
-│              HOW A CLOUDWATCH ALARM WORKS               │
-│                                                         │
-│  1. You choose a metric (e.g., CPUUtilization)         │
-│                                                         │
-│  2. You set a threshold (e.g., > 80%)                  │
-│                                                         │
-│  3. You set the duration (e.g., for 2 consecutive      │
-│     data points, each lasting 5 minutes)               │
-│                                                         │
-│  4. You choose an action (e.g., send email via SNS,    │
-│     stop the EC2 instance, trigger Auto Scaling)       │
-│                                                         │
-│  5. When the metric crosses the threshold for the       │
-│     specified period → the alarm triggers your action   │
-│                                                         │
-│  Alarm States:                                          │
-│    ✅ OK        — Everything is normal                  │
-│    ⚠️ ALARM    — Threshold breached, action triggered  │
-│    📋 INSUFFICIENT_DATA — Not enough data yet          │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    TITLE["How a CloudWatch Alarm Works"]
+    
+    subgraph Alarm["CloudWatch Alarm Lifecycle"]
+        Step1["1. Choose a metric<br/>e.g., CPUUtilization"]
+        Step2["2. Set a threshold<br/>e.g., > 80%"]
+        Step3["3. Set duration<br/>e.g., 2 consecutive data points<br/>each lasting 5 minutes"]
+        Step4["4. Choose action<br/>e.g., send email via SNS,<br/>stop EC2, trigger Auto Scaling"]
+        Step5["5. Metric crosses threshold<br/>for specified period →<br/>Alarm triggers action"]
+        
+        Step1 --> Step2 --> Step3 --> Step4 --> Step5
+    end
+    
+    subgraph States["Alarm States"]
+        OK["✅ OK<br/>Everything is normal"]
+        ALARM["⚠️ ALARM<br/>Threshold breached<br/>Action triggered"]
+        INSUFF["📋 INSUFFICIENT_DATA<br/>Not enough data yet"]
+    end
+    
+    Step5 -.->|"Transitions to"| ALARM
+    
+    style Alarm fill:#0d1b2a,color:#fff,stroke:#ff9900
+    style States fill:#0d1b2a,color:#fff,stroke:#3498db
+    style OK fill:#1a6b1a,color:#fff
+    style ALARM fill:#6b1a1a,color:#fff
+    style INSUFF fill:#6b5b1a,color:#fff
 ```
 
 ---
@@ -296,55 +316,58 @@ STEP 4: View logs in console:
 
 ## ❓ Quick Quiz
 
-**Question 1:** What is the primary purpose of Amazon CloudWatch?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) To store files in the cloud
-B) To monitor AWS resources and applications
-C) To manage user permissions
-D) To create virtual machines
-```
-**Answer: B** — CloudWatch is AWS's monitoring service for collecting metrics, logs, and setting alarms.
-
----
-
-**Question 2:** Which of the following EC2 metrics is available by default WITHOUT installing the CloudWatch Agent?
-
-```
-A) Memory usage
-B) Disk space usage
-C) CPU utilization
-D) Application error count
-```
-**Answer: C** — CPU utilization is a hypervisor-level metric available by default. Memory and disk metrics require the CloudWatch Agent.
-
----
-
-**Question 3:** An EC2 instance has CPU at 90% for 3 minutes. The alarm has a threshold of 80% and requires 2 consecutive data points at 5-minute intervals. What is the alarm state?
-
-```
-A) OK
-B) ALARM
-C) INSUFFICIENT_DATA
-D) Cannot be determined
-```
-**Answer: B** — With 2 data points at 5-minute intervals (10 minutes total), and 90% for 3 minutes means it crossed the 80% threshold for the required duration. Actually wait — 3 minutes is less than 5-minute periods. The correct answer is more nuanced. Let me reconsider: if we have 2 datapoints at 5-min intervals, that spans 10 minutes. If CPU is at 90% for only 3 minutes, it depends on when the 5-min windows fall. The most likely answer is INSUFFICIENT_DATA since we need 2 datapoints. Let me simplify: **Answer: C** — We need more data points to determine.
-
-Actually, let me redo this more carefully:
-
-**Answer: C** — With 5-minute periods and 2 datapoints required, the alarm needs data spanning 10 minutes. Three minutes of high CPU is insufficient data to make a determination.
-
----
-
-**Question 4:** You want to search through gigabytes of application logs for all ERROR messages from the last 24 hours. Which CloudWatch feature should you use?
-
-```
-A) CloudWatch Dashboard
-B) CloudWatch Logs Insights
-C) CloudWatch Alarms
-D) CloudWatch Metrics
-```
-**Answer: B** — CloudWatch Logs Insights allows you to run SQL-like queries on your log data to filter, aggregate, and analyze logs efficiently.
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "What is the primary purpose of Amazon CloudWatch?",
+        "options": [
+            "To store files in the cloud",
+            "To monitor AWS resources and applications",
+            "To manage user permissions",
+            "To create virtual machines"
+        ],
+        "correct": 1,
+        "explanation": "CloudWatch is AWS's monitoring service for collecting metrics, logs, and setting alarms."
+    },
+    {
+        "id": 2,
+        "question": "Which of the following EC2 metrics is available by default WITHOUT installing the CloudWatch Agent?",
+        "options": [
+            "Memory usage",
+            "Disk space usage",
+            "CPU utilization",
+            "Application error count"
+        ],
+        "correct": 2,
+        "explanation": "CPU utilization is a hypervisor-level metric available by default. Memory and disk metrics require the CloudWatch Agent."
+    },
+    {
+        "id": 3,
+        "question": "An EC2 instance has CPU at 90% for 3 minutes. The alarm has a threshold of 80% and requires 2 consecutive data points at 5-minute intervals. What is the alarm state?",
+        "options": [
+            "OK",
+            "ALARM",
+            "INSUFFICIENT_DATA",
+            "Cannot be determined"
+        ],
+        "correct": 2,
+        "explanation": "With 5-minute evaluation periods and a requirement of 2 consecutive data points, we need 10 minutes of sustained high CPU. Since the CPU has only been at 90% for 3 minutes, there is not enough data to determine if the threshold is breached. The state is INSUFFICIENT_DATA."
+    },
+    {
+        "id": 4,
+        "question": "You want to search through gigabytes of application logs for all ERROR messages from the last 24 hours. Which CloudWatch feature should you use?",
+        "options": [
+            "CloudWatch Dashboard",
+            "CloudWatch Logs Insights",
+            "CloudWatch Alarms",
+            "CloudWatch Metrics"
+        ],
+        "correct": 1,
+        "explanation": "CloudWatch Logs Insights allows you to run SQL-like queries on your log data to filter, aggregate, and analyze logs efficiently."
+    }
+]} />
 
 ---
 

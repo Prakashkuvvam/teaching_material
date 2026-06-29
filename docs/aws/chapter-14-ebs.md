@@ -282,27 +282,34 @@ STEP 10: (Optional) Clean up:
 
 ## ❓ Quick Quiz
 
-**Question 1:** An EBS volume is created in us-east-1a. Can it be attached to an EC2 instance in us-east-1b?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) Yes, any volume can attach to any instance
-B) No, EBS volumes are AZ-specific
-C) Yes, but only if both are in the same region
-D) Yes, but performance will be reduced
-```
-**Answer: B** — EBS volumes are tied to their Availability Zone. A volume in us-east-1a can only be attached to instances in us-east-1a. To move it, create a snapshot and restore it in the destination AZ.
-
----
-
-**Question 2:** What happens to the root EBS volume when you terminate an EC2 instance by default?
-
-```
-A) It persists and you continue to pay for it
-B) It is deleted along with the instance
-C) It is automatically detached and saved
-D) It is converted into an AMI
-```
-**Answer: B** — By default, the "Delete on Termination" flag is enabled for root volumes. When the EC2 instance is terminated, the root volume is deleted. Always check this setting if you want to preserve data.
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "An EBS volume is created in us-east-1a. Can it be attached to an EC2 instance in us-east-1b?",
+        "options": [
+            "Yes, any volume can attach to any instance",
+            "No, EBS volumes are AZ-specific",
+            "Yes, but only if both are in the same region",
+            "Yes, but performance will be reduced"
+        ],
+        "correct": 1,
+        "explanation": "EBS volumes are tied to their Availability Zone. A volume in us-east-1a can only be attached to instances in us-east-1a. To move it, create a snapshot and restore it in the destination AZ."
+    },
+    {
+        "id": 2,
+        "question": "What happens to the root EBS volume when you terminate an EC2 instance by default?",
+        "options": [
+            "It persists and you continue to pay for it",
+            "It is deleted along with the instance",
+            "It is automatically detached and saved",
+            "It is converted into an AMI"
+        ],
+        "correct": 1,
+        "explanation": "By default, the \"Delete on Termination\" flag is enabled for root volumes. When the EC2 instance is terminated, the root volume is deleted. Always check this setting if you want to preserve data."
+    }
+]} />
 
 ---
 

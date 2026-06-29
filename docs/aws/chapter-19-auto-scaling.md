@@ -224,27 +224,34 @@ STEP 10: Verify:
 
 ## ❓ Quick Quiz
 
-**Question 1:** You configure an ASG with Min=2, Max=10, Desired=4. Current CPU is 20%. Your scale-down policy triggers when CPU < 30% and removes 1 instance. What happens?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) Nothing — ASG removes instances one at a time
-B) ASG immediately removes 1 instance
-C) ASG removes 1 instance after cooldown, then checks again
-D) ASG removes all instances because CPU is below 30%
-```
-**Answer: C** — The scaling policy triggers, but the ASG waits for the cooldown period before taking action. After cooldown, it removes 1 instance and evaluates again.
-
----
-
-**Question 2:** What is the purpose of a Launch Template in Auto Scaling?
-
-```
-A) It stores logs of all scaling activities
-B) It defines the blueprint for new EC2 instances
-C) It sends notifications when scaling happens
-D) It monitors CPU usage of instances
-```
-**Answer: B** — A Launch Template contains all the configuration needed to launch a new EC2 instance: AMI, instance type, security group, key pair, and user data.
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "You configure an ASG with Min=2, Max=10, Desired=4. Current CPU is 20%. Your scale-down policy triggers when CPU < 30% and removes 1 instance. What happens?",
+        "options": [
+            "Nothing \u2014 ASG removes instances one at a time",
+            "ASG immediately removes 1 instance",
+            "ASG removes 1 instance after cooldown, then checks again",
+            "ASG removes all instances because CPU is below 30%"
+        ],
+        "correct": 2,
+        "explanation": "The scaling policy triggers, but the ASG waits for the cooldown period before taking action. After cooldown, it removes 1 instance and evaluates again."
+    },
+    {
+        "id": 2,
+        "question": "What is the purpose of a Launch Template in Auto Scaling?",
+        "options": [
+            "It stores logs of all scaling activities",
+            "It defines the blueprint for new EC2 instances",
+            "It sends notifications when scaling happens",
+            "It monitors CPU usage of instances"
+        ],
+        "correct": 1,
+        "explanation": "A Launch Template contains all the configuration needed to launch a new EC2 instance: AMI, instance type, security group, key pair, and user data."
+    }
+]} />
 
 ---
 

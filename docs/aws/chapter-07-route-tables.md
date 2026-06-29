@@ -109,24 +109,39 @@ Reading this table:
 
 ## 🗺️ Public vs Private Route Table
 
-```
-┌───────────────────────────────────────────────────────────┐
-│                       YOUR VPC                            │
-│                                                           │
-│  PUBLIC ROUTE TABLE              PRIVATE ROUTE TABLE      │
-│  ┌─────────────────────┐        ┌────────────────────┐   │
-│  │ Destination │ Target│        │Destination │ Target│   │
-│  ├─────────────┼───────┤        ├────────────┼───────┤   │
-│  │ 10.0.0.0/16 │ local │        │10.0.0.0/16 │ local │   │
-│  │ 0.0.0.0/0   │ IGW   │        │ (no 0.0.0.0│ route)│   │
-│  └─────────────┴───────┘        └────────────┴───────┘   │
-│           │                              │                │
-│           ▼                              ▼                │
-│  ┌─────────────────┐          ┌──────────────────────┐   │
-│  │  PUBLIC SUBNET  │          │   PRIVATE SUBNET      │   │
-│  │  Web Servers    │          │   Database Servers    │   │
-│  └─────────────────┘          └──────────────────────┘   │
-└───────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph VPC["Your VPC"]
+        direction TB
+        
+        subgraph Public["Public Route Table"]
+            RT1_Pub["10.0.0.0/16 → local<br/>0.0.0.0/0 → Internet Gateway (IGW)"]
+        end
+        
+        subgraph Private["Private Route Table"]
+            RT2_Priv["10.0.0.0/16 → local<br/>(no internet route)"]
+        end
+        
+        subgraph PubSub["🟢 Public Subnet"]
+            Web["Web Servers"]
+        end
+        
+        subgraph PrivSub["🔵 Private Subnet"]
+            DB["Database Servers"]
+        end
+        
+        RT1_Pub -.-> PubSub
+        RT2_Priv -.-> PrivSub
+    end
+    
+    IGW["Internet Gateway"] -.-> RT1_Pub
+    
+    style VPC fill:#1a1a2e,color:#fff,stroke:#ff9900,stroke-width:2px
+    style Public fill:#0d1b2a,color:#fff,stroke:#2ecc40,stroke-width:1px
+    style Private fill:#0d1b2a,color:#fff,stroke:#e74c3c,stroke-width:1px
+    style PubSub fill:#1a6b1a,color:#fff
+    style PrivSub fill:#6b1a1a,color:#fff
+    style IGW fill:#ff9900,color:#000
 ```
 
 The Public Subnet has a route to the Internet Gateway (IGW), which is why it can access the internet.
@@ -179,27 +194,34 @@ STEP 5: Associate with Public Subnet
 
 ## ❓ Quick Quiz
 
-**Question 1:** What does the route 0.0.0.0/0 → Internet Gateway mean?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) Block all internet traffic
-B) Send all unmatched traffic to the Internet Gateway
-C) Restrict traffic to the VPC only
-D) Delete all routes
-```
-**Answer: B**
-
----
-
-**Question 2:** What makes a Subnet "public"?
-
-```
-A) It has a big CIDR range
-B) It is in a public Availability Zone
-C) Its Route Table has a route to an Internet Gateway
-D) It has more than 100 servers
-```
-**Answer: C**
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "What does the route 0.0.0.0/0 \u2192 Internet Gateway mean?",
+        "options": [
+            "Block all internet traffic",
+            "Send all unmatched traffic to the Internet Gateway",
+            "Restrict traffic to the VPC only",
+            "Delete all routes"
+        ],
+        "correct": 1,
+        "explanation": ""
+    },
+    {
+        "id": 2,
+        "question": "What makes a Subnet \"public\"?",
+        "options": [
+            "It has a big CIDR range",
+            "It is in a public Availability Zone",
+            "Its Route Table has a route to an Internet Gateway",
+            "It has more than 100 servers"
+        ],
+        "correct": 2,
+        "explanation": ""
+    }
+]} />
 
 ---
 

@@ -193,28 +193,34 @@ STEP 7: Test:
 
 ## ❓ Quick Quiz
 
-**Question 1:** Your application runs on EC2 instances across 3 Availability Zones. One instance fails. What does the Load Balancer do?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) It stops sending traffic to all instances in that AZ
-B) It continues sending traffic to the failed instance
-C) It detects the failure via health checks and
-   stops sending traffic only to the failed instance
-D) It automatically launches a new EC2 instance
-```
-**Answer: C** — The Load Balancer health check detects the unhealthy instance and removes it from the target group. Traffic continues to flow to the healthy instances.
-
----
-
-**Question 2:** Which Load Balancer type operates at Layer 7 (HTTP/HTTPS) and supports path-based routing?
-
-```
-A) Classic Load Balancer (CLB)
-B) Network Load Balancer (NLB)
-C) Application Load Balancer (ALB)
-D) Gateway Load Balancer (GWLB)
-```
-**Answer: C** — ALB operates at Layer 7 and supports advanced routing like path-based, host-based, and query-string routing.
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "Your application runs on EC2 instances across 3 Availability Zones. One instance fails. What does the Load Balancer do?",
+        "options": [
+            "It stops sending traffic to all instances in that AZ",
+            "It continues sending traffic to the failed instance",
+            "It detects the failure via health checks and",
+            "It automatically launches a new EC2 instance"
+        ],
+        "correct": 2,
+        "explanation": "The Load Balancer health check detects the unhealthy instance and removes it from the target group. Traffic continues to flow to the healthy instances."
+    },
+    {
+        "id": 2,
+        "question": "Which Load Balancer type operates at Layer 7 (HTTP/HTTPS) and supports path-based routing?",
+        "options": [
+            "Classic Load Balancer (CLB)",
+            "Network Load Balancer (NLB)",
+            "Application Load Balancer (ALB)",
+            "Gateway Load Balancer (GWLB)"
+        ],
+        "correct": 2,
+        "explanation": "ALB operates at Layer 7 and supports advanced routing like path-based, host-based, and query-string routing."
+    }
+]} />
 
 ---
 

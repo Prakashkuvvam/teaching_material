@@ -172,27 +172,34 @@ IMPORTANT AFTER SIGN IN:
 
 ## ❓ Quick Quiz
 
-**Question 1:** In what year did AWS officially launch?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) 2000
-B) 2004
-C) 2006
-D) 2010
-```
-**Answer: C** — AWS launched in 2006.
-
----
-
-**Question 2:** Which of the following is NOT an AWS competitor?
-
-```
-A) Microsoft Azure
-B) Google Cloud Platform
-C) GitHub
-D) None of the above
-```
-**Answer: C** — GitHub is a code repository service, not a cloud infrastructure competitor.
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "In what year did AWS officially launch?",
+        "options": [
+            "2000",
+            "2004",
+            "2006",
+            "2010"
+        ],
+        "correct": 2,
+        "explanation": "AWS launched in 2006."
+    },
+    {
+        "id": 2,
+        "question": "Which of the following is NOT an AWS competitor?",
+        "options": [
+            "Microsoft Azure",
+            "Google Cloud Platform",
+            "GitHub",
+            "None of the above"
+        ],
+        "correct": 2,
+        "explanation": "GitHub is a code repository service, not a cloud infrastructure competitor."
+    }
+]} />
 
 ---
 

@@ -147,29 +147,34 @@ There are three ways you can use the cloud. Each gives you a different level of 
 
 ## ❓ Quick Quiz
 
-**Question 1:** Rahul's website suddenly gets 100x more traffic. What happens in the cloud that cannot happen with a physical server?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) The website crashes immediately
-B) The cloud automatically adds more resources
-C) Rahul has to buy more servers manually
-D) Nothing changes
-```
-
-**Answer: B** — The cloud can automatically scale to handle more traffic.
-
----
-
-**Question 2:** Which of these is the best real-world analogy for cloud computing?
-
-```
-A) Buying a car
-B) Building a house
-C) Using electricity from the power grid
-D) Planting your own crops
-```
-
-**Answer: C** — You use what you need and pay for it. You do not build your own power plant.
+<Quiz questions={[
+  {
+    id: 1,
+    question: "Rahul's website suddenly gets 100x more traffic. What happens in the cloud that cannot happen with a physical server?",
+    options: [
+      "The website crashes immediately",
+      "The cloud automatically adds more resources",
+      "Rahul has to buy more servers manually",
+      "Nothing changes",
+    ],
+    correct: 1,
+    explanation: "The cloud can automatically scale to handle more traffic.",
+  },
+  {
+    id: 2,
+    question: "Which of these is the best real-world analogy for cloud computing?",
+    options: [
+      "Buying a car",
+      "Building a house",
+      "Using electricity from the power grid",
+      "Planting your own crops",
+    ],
+    correct: 2,
+    explanation: "You use what you need and pay for it. You do not build your own power plant.",
+  },
+]} />
 
 ---
 

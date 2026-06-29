@@ -125,23 +125,36 @@ One very important rule:
 
 This is like saying each section of the school campus is in one specific building. The Science Wing is in Building A. It is not split across Building A and Building B.
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                  VPC: 10.0.0.0/16  (Mumbai Region)         │
-│                                                             │
-│  ┌────────────────┐  ┌────────────────┐  ┌──────────────┐  │
-│  │    AZ-1        │  │     AZ-2       │  │    AZ-3      │  │
-│  │ ap-south-1a    │  │  ap-south-1b   │  │ ap-south-1c  │  │
-│  │                │  │                │  │              │  │
-│  │ Public  10.0.1 │  │ Public  10.0.3 │  │Public  10.0.5│  │
-│  │ Subnet  .0/24  │  │ Subnet  .0/24  │  │Subnet  .0/24 │  │
-│  │                │  │                │  │              │  │
-│  │ Private 10.0.2 │  │ Private 10.0.4 │  │Private 10.0.6│  │
-│  │ Subnet  .0/24  │  │ Subnet  .0/24  │  │Subnet  .0/24 │  │
-│  └────────────────┘  └────────────────┘  └──────────────┘  │
-│                                                             │
-│  ← Each AZ has its own Public and Private subnet →         │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph VPC["VPC: 10.0.0.0/16 (Mumbai Region)"]
+        direction TB
+        subgraph AZ1["Availability Zone 1 — ap-south-1a"]
+            direction TB
+            Pub1["🟢 Public Subnet<br/>10.0.1.0/24"]
+            Priv1["🔵 Private Subnet<br/>10.0.2.0/24"]
+        end
+        subgraph AZ2["Availability Zone 2 — ap-south-1b"]
+            direction TB
+            Pub2["🟢 Public Subnet<br/>10.0.3.0/24"]
+            Priv2["🔵 Private Subnet<br/>10.0.4.0/24"]
+        end
+        subgraph AZ3["Availability Zone 3 — ap-south-1c"]
+            direction TB
+            Pub3["🟢 Public Subnet<br/>10.0.5.0/24"]
+            Priv3["🔵 Private Subnet<br/>10.0.6.0/24"]
+        end
+    end
+    style VPC fill:#1a1a2e,color:#fff,stroke:#ff9900,stroke-width:2px
+    style AZ1 fill:#0d1b2a,color:#fff,stroke:#ff9900,stroke-width:1px
+    style AZ2 fill:#0d1b2a,color:#fff,stroke:#ff9900,stroke-width:1px
+    style AZ3 fill:#0d1b2a,color:#fff,stroke:#ff9900,stroke-width:1px
+    style Pub1 fill:#1a6b1a,color:#fff
+    style Pub2 fill:#1a6b1a,color:#fff
+    style Pub3 fill:#1a6b1a,color:#fff
+    style Priv1 fill:#1a3a6b,color:#fff
+    style Priv2 fill:#1a3a6b,color:#fff
+    style Priv3 fill:#1a3a6b,color:#fff
 ```
 
 This design ensures High Availability — if AZ-1 goes down, your application continues in AZ-2 and AZ-3.
@@ -193,27 +206,34 @@ STEP 4: Make Public Subnet actually public
 
 ## ❓ Quick Quiz
 
-**Question 1:** Where does a Subnet exist?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) Across multiple Regions
-B) Across multiple Availability Zones
-C) In exactly one Availability Zone
-D) In exactly one data center rack
-```
-**Answer: C** — A subnet lives in exactly one AZ.
-
----
-
-**Question 2:** You have a database with sensitive customer data. Should it be in a Public or Private Subnet?
-
-```
-A) Public Subnet — so customers can access it
-B) Private Subnet — so it is not directly accessible from internet
-C) It does not matter
-D) A database does not need a subnet
-```
-**Answer: B**
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "Where does a Subnet exist?",
+        "options": [
+            "Across multiple Regions",
+            "Across multiple Availability Zones",
+            "In exactly one Availability Zone",
+            "In exactly one data center rack"
+        ],
+        "correct": 2,
+        "explanation": "A subnet lives in exactly one AZ."
+    },
+    {
+        "id": 2,
+        "question": "You have a database with sensitive customer data. Should it be in a Public or Private Subnet?",
+        "options": [
+            "Public Subnet \u2014 so customers can access it",
+            "Private Subnet \u2014 so it is not directly accessible from internet",
+            "It does not matter",
+            "A database does not need a subnet"
+        ],
+        "correct": 1,
+        "explanation": ""
+    }
+]} />
 
 ---
 

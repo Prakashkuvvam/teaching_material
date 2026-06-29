@@ -185,27 +185,34 @@ STEP 9: Connect to your instance:
 
 ## ❓ Quick Quiz
 
-**Question 1:** You need to run a database server that requires 512 GB of RAM. Which instance family should you choose?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) Compute Optimized (c6)
-B) Memory Optimized (r6)
-C) General Purpose (t3)
-D) Storage Optimized (i3)
-```
-**Answer: B** — Memory Optimized instances are designed for workloads requiring large amounts of RAM.
-
----
-
-**Question 2:** Which pricing model should you use for a development server that only runs Monday to Friday, 9am to 6pm?
-
-```
-A) Reserved (1 year commitment)
-B) On-Demand (pay as you go)
-C) Spot (cheapest but can be terminated)
-D) Savings Plans
-```
-**Answer: B** — On-Demand is best when you stop the server regularly and do not need it full-time.
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "You need to run a database server that requires 512 GB of RAM. Which instance family should you choose?",
+        "options": [
+            "Compute Optimized (c6)",
+            "Memory Optimized (r6)",
+            "General Purpose (t3)",
+            "Storage Optimized (i3)"
+        ],
+        "correct": 1,
+        "explanation": "Memory Optimized instances are designed for workloads requiring large amounts of RAM."
+    },
+    {
+        "id": 2,
+        "question": "Which pricing model should you use for a development server that only runs Monday to Friday, 9am to 6pm?",
+        "options": [
+            "Reserved (1 year commitment)",
+            "On-Demand (pay as you go)",
+            "Spot (cheapest but can be terminated)",
+            "Savings Plans"
+        ],
+        "correct": 1,
+        "explanation": "On-Demand is best when you stop the server regularly and do not need it full-time."
+    }
+]} />
 
 ---
 

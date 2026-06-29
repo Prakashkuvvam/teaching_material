@@ -268,27 +268,34 @@ STEP 7: Enable MFA for Root account:
 
 ## ❓ Quick Quiz
 
-**Question 1:** Your EC2 instance needs to write files to S3. How should you grant this permission?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) Create an IAM User and put access keys in the code
-B) Assign an IAM Role with S3 write permissions to the EC2
-C) Make the S3 bucket public
-D) Use the Root account credentials
-```
-**Answer: B** — IAM Roles are the correct and secure way to give EC2 access to other AWS services.
-
----
-
-**Question 2:** You have 50 developers who all need the same permissions. What is the BEST way to manage this?
-
-```
-A) Create 50 individual policies for each user
-B) Give all of them AdministratorAccess
-C) Create an IAM Group with the policy, add all users to it
-D) Share one IAM User account between all 50
-```
-**Answer: C**
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "Your EC2 instance needs to write files to S3. How should you grant this permission?",
+        "options": [
+            "Create an IAM User and put access keys in the code",
+            "Assign an IAM Role with S3 write permissions to the EC2",
+            "Make the S3 bucket public",
+            "Use the Root account credentials"
+        ],
+        "correct": 1,
+        "explanation": "IAM Roles are the correct and secure way to give EC2 access to other AWS services."
+    },
+    {
+        "id": 2,
+        "question": "You have 50 developers who all need the same permissions. What is the BEST way to manage this?",
+        "options": [
+            "Create 50 individual policies for each user",
+            "Give all of them AdministratorAccess",
+            "Create an IAM Group with the policy, add all users to it",
+            "Share one IAM User account between all 50"
+        ],
+        "correct": 2,
+        "explanation": ""
+    }
+]} />
 
 ---
 

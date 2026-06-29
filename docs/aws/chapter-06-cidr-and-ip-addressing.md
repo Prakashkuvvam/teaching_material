@@ -196,27 +196,34 @@ The 5 reserved are:
 
 ## ❓ Quick Quiz
 
-**Question 1:** How many IP addresses does a /24 subnet give you?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) 16
-B) 65,536
-C) 256
-D) 1024
-```
-**Answer: C** — /24 gives 256 addresses (251 usable after AWS reserves 5).
-
----
-
-**Question 2:** Which CIDR block gives you MORE IP addresses?
-
-```
-A) 10.0.0.0/28
-B) 10.0.0.0/24
-C) 10.0.0.0/16
-D) 10.0.0.0/32
-```
-**Answer: C** — Smaller slash number = more IP addresses.
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "How many IP addresses does a /24 subnet give you?",
+        "options": [
+            "16",
+            "65,536",
+            "256",
+            "1024"
+        ],
+        "correct": 2,
+        "explanation": "/24 gives 256 addresses (251 usable after AWS reserves 5)."
+    },
+    {
+        "id": 2,
+        "question": "Which CIDR block gives you MORE IP addresses?",
+        "options": [
+            "10.0.0.0/28",
+            "10.0.0.0/24",
+            "10.0.0.0/16",
+            "10.0.0.0/32"
+        ],
+        "correct": 2,
+        "explanation": "Smaller slash number = more IP addresses."
+    }
+]} />
 
 ---
 

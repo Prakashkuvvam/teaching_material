@@ -206,27 +206,34 @@ STEP 9: (Optional) Clean up:
 
 ## ❓ Quick Quiz
 
-**Question 1:** You create an AMI from an EC2 instance in us-east-1. Can you use this AMI directly in eu-west-1?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) Yes, AMIs are global
-B) No, AMIs are regional — you must copy it
-C) Yes, but only if you use the same instance type
-D) No, AMIs can never be used in another region
-```
-**Answer: B** — AMIs are regional. You must copy the AMI to eu-west-1 using the "Copy AMI" action before you can use it there.
-
----
-
-**Question 2:** You have 50 EC2 instances that all need the same custom software installed. What is the BEST approach?
-
-```
-A) Install the software manually on each instance
-B) Create an AMI with the software, then launch all 50 instances from it
-C) Write a script and run it on each instance after launch
-D) Use AWS Marketplace to find a public AMI
-```
-**Answer: B** — Creating a custom AMI ensures all 50 instances are identical, launch faster, and have zero manual configuration errors.
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "You create an AMI from an EC2 instance in us-east-1. Can you use this AMI directly in eu-west-1?",
+        "options": [
+            "Yes, AMIs are global",
+            "No, AMIs are regional \u2014 you must copy it",
+            "Yes, but only if you use the same instance type",
+            "No, AMIs can never be used in another region"
+        ],
+        "correct": 1,
+        "explanation": "AMIs are regional. You must copy the AMI to eu-west-1 using the \"Copy AMI\" action before you can use it there."
+    },
+    {
+        "id": 2,
+        "question": "You have 50 EC2 instances that all need the same custom software installed. What is the BEST approach?",
+        "options": [
+            "Install the software manually on each instance",
+            "Create an AMI with the software, then launch all 50 instances from it",
+            "Write a script and run it on each instance after launch",
+            "Use AWS Marketplace to find a public AMI"
+        ],
+        "correct": 1,
+        "explanation": "Creating a custom AMI ensures all 50 instances are identical, launch faster, and have zero manual configuration errors."
+    }
+]} />
 
 ---
 

@@ -60,24 +60,36 @@ Wait — if a server is in a Private Subnet, why would it need internet access a
 
 Great question. There are valid reasons:
 
-```
-┌─────────────────────────────────────────────────────────┐
-│     WHY PRIVATE SERVERS SOMETIMES NEED INTERNET         │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  • Download security patches and software updates      │
-│  • Access external APIs (payment gateways, SMS, etc.)  │
-│  • Pull packages from package repositories             │
-│  • Send logs to external monitoring services           │
-│                                                         │
-│  But we do NOT want:                                   │
-│  ✗ Internet users to directly access these servers     │
-│  ✗ The server's private IP exposed to the internet     │
-│                                                         │
-│  NAT Gateway solves this perfectly.                    │
-│  → Allows OUTBOUND traffic from private servers        │
-│  → Blocks INBOUND traffic from internet                │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    Internet["🌐 Internet"]
+    subgraph VPC["VPC"]
+        direction TB
+        subgraph PubSub["🟢 Public Subnet"]
+            WebServer["Web Server (EC2)"]
+            NATGW["NAT Gateway<br/>(has Public IP)"]
+        end
+        subgraph PrivSub["🔵 Private Subnet"]
+            AppServer["App Server<br/>(can reach internet via NAT)"]
+            DB["Database<br/>(internal only)"]
+        end
+    end
+    
+    Internet -->|"Inbound traffic"| WebServer
+    AppServer -->|"Outbound traffic"| NATGW
+    NATGW -->|"Via IGW"| Internet
+    
+    WebServer -.->|"Communicates with"| AppServer
+    AppServer -.->|"Accesses"| DB
+    
+    style Internet fill:#2d3748,color:#fff
+    style VPC fill:#1a1a2e,color:#fff,stroke:#ff9900,stroke-width:2px
+    style PubSub fill:#0d1b2a,color:#fff,stroke:#2ecc40,stroke-width:1px
+    style PrivSub fill:#0d1b2a,color:#fff,stroke:#e74c3c,stroke-width:1px
+    style WebServer fill:#3498db,color:#fff
+    style NATGW fill:#ff9900,color:#000
+    style AppServer fill:#1a6b1a,color:#fff
+    style DB fill:#6b1a1a,color:#fff
 ```
 
 ---
@@ -144,35 +156,38 @@ This is called **Network Address Translation (NAT)**.
 
 ## 🗺️ Full VPC Architecture with NAT Gateway
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│                           VPC                                │
-│                                                              │
-│                        INTERNET                              │
-│                           │                                  │
-│                    ┌──────▼──────┐                           │
-│                    │  INTERNET   │                           │
-│                    │  GATEWAY    │                           │
-│                    └──────┬──────┘                           │
-│                           │                                  │
-│          ┌────────────────▼─────────────────────┐           │
-│          │           PUBLIC SUBNET               │           │
-│          │  ┌────────────┐  ┌───────────────┐   │           │
-│          │  │ Web Server │  │ NAT Gateway   │   │           │
-│          │  │ (EC2)      │  │(has Public IP)│   │           │
-│          │  └────────────┘  └───────┬───────┘   │           │
-│          └──────────────────────────│────────────┘           │
-│                                     │                        │
-│          ┌──────────────────────────▼────────────┐           │
-│          │          PRIVATE SUBNET               │           │
-│          │  ┌────────────┐  ┌───────────────┐   │           │
-│          │  │ App Server │  │  Database     │   │           │
-│          │  │ (can reach │  │  (internal    │   │           │
-│          │  │ internet   │  │   only)       │   │           │
-│          │  │ via NAT)   │  │               │   │           │
-│          │  └────────────┘  └───────────────┘   │           │
-│          └───────────────────────────────────────┘           │
-└──────────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph VPC["VPC"]
+        Internet["🌐 Internet"]
+        IGW["Internet Gateway"]
+        
+        subgraph PublicSubnet["🟢 Public Subnet"]
+            WebServer["Web Server (EC2)"]
+            NAT["NAT Gateway<br/>(has Public IP)"]
+        end
+        
+        subgraph PrivateSubnet["🔵 Private Subnet"]
+            AppServer["App Server<br/>(can reach internet via NAT)"]
+            Database["Database<br/>(internal only)"]
+        end
+        
+        Internet --> IGW
+        IGW --> WebServer
+        IGW --> NAT
+        NAT --> AppServer
+        AppServer --> Database
+    end
+    
+    style VPC fill:#1a1a2e,color:#fff,stroke:#ff9900,stroke-width:2px
+    style Internet fill:#3498db,color:#fff
+    style IGW fill:#ff9900,color:#000
+    style PublicSubnet fill:#1a6b1a,color:#fff,stroke:#2ecc40
+    style PrivateSubnet fill:#6b1a1a,color:#fff,stroke:#e74c3c
+    style WebServer fill:#1a3a6b,color:#fff
+    style NAT fill:#ff9900,color:#000
+    style AppServer fill:#1a3a6b,color:#fff
+    style Database fill:#1a3a6b,color:#fff
 ```
 
 ---
@@ -243,27 +258,34 @@ STEP 5: Update Private Subnet Route Table
 
 ## ❓ Quick Quiz
 
-**Question 1:** Where should a NAT Gateway be placed?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) In a Private Subnet
-B) In a Public Subnet
-C) Outside the VPC
-D) In the Route Table
-```
-**Answer: B** — NAT Gateway must be in a Public Subnet.
-
----
-
-**Question 2:** Can someone from the internet connect directly to a private server through the NAT Gateway?
-
-```
-A) Yes, if they know the private IP
-B) Yes, if they know the NAT Gateway IP
-C) No, NAT Gateway only allows outbound connections
-D) Yes, if the private server has an Elastic IP
-```
-**Answer: C**
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "Where should a NAT Gateway be placed?",
+        "options": [
+            "In a Private Subnet",
+            "In a Public Subnet",
+            "Outside the VPC",
+            "In the Route Table"
+        ],
+        "correct": 1,
+        "explanation": "NAT Gateway must be in a Public Subnet."
+    },
+    {
+        "id": 2,
+        "question": "Can someone from the internet connect directly to a private server through the NAT Gateway?",
+        "options": [
+            "Yes, if they know the private IP",
+            "Yes, if they know the NAT Gateway IP",
+            "No, NAT Gateway only allows outbound connections",
+            "Yes, if the private server has an Elastic IP"
+        ],
+        "correct": 2,
+        "explanation": ""
+    }
+]} />
 
 ---
 

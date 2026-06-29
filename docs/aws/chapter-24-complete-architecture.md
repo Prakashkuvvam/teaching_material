@@ -47,112 +47,104 @@ This chapter builds the architecture that meets all of these requirements.
 
 This is the final, complete architecture. Every component you have learned is here.
 
+```mermaid
+graph TB
+    subgraph AWS["☁️ AWS Cloud — ap-south-1 (Mumbai)"]
+        direction TB
+
+        R53["📋 Route 53<br/>notebookly.com → ALB DNS"]
+
+        WAF["🛡️ WAF (Web ACL)<br/>Security Guard"]
+
+        IGW["🌐 Internet Gateway<br/>Main School Gate"]
+
+        subgraph VPC["VPC: 10.0.0.0/16 (The School Campus)"]
+            direction TB
+
+            subgraph AZ1["🏛️ AZ-1 (Building A)"]
+                PubSub1["🟢 PUBLIC SUBNET-A<br/>10.0.1.0/24 (Science Wing)"]
+                NAT1["📡 NAT Gateway (Staff Exit)"]
+                PrivSub1["🔵 PRIVATE SUBNET-A<br/>10.0.3.0/24 (Admin Block)"]
+                Web1["🖥️ EC2 Web Server (Student)"]
+                App1["🖥️ EC2 App Server (Student)"]
+                RDS_B["🗄️ RDS Read Replica (Library Branch)"]
+                PubSub1 --- NAT1
+                PrivSub1 --- Web1
+                PrivSub1 --- App1
+                PrivSub1 --- RDS_B
+            end
+
+            subgraph AZ2["🏛️ AZ-2 (Building B)"]
+                PubSub2["🟢 PUBLIC SUBNET-B<br/>10.0.2.0/24 (Arts Wing)"]
+                NAT2["📡 NAT Gateway (Staff Exit)"]
+                PrivSub2["🔵 PRIVATE SUBNET-B<br/>10.0.4.0/24 (Admin Block)"]
+                Web2["🖥️ EC2 Web Server (Student)"]
+                App2["🖥️ EC2 App Server (Student)"]
+                RDS_P["🗄️ RDS Primary (Main Library)"]
+                PubSub2 --- NAT2
+                PrivSub2 --- Web2
+                PrivSub2 --- App2
+                PrivSub2 --- RDS_P
+            end
+
+            ASG["⚙️ Auto Scaling Group<br/>Min:2 Max:10 Desired:2<br/>Scale out: CPU > 70% 5min<br/>Scale in: CPU < 30% 15min"]
+
+            ALB["⚖️ Application Load Balancer<br/>School Receptionist<br/>HTTP:80 → HTTPS:443<br/>Target: ASG EC2 instances<br/>Health check: /health → 200"]
+        end
+
+        S3["📦 S3 Bucket<br/>Central Library<br/>Product images, static assets, backups"]
+        S3_CT["📦 S3 Bucket<br/>CloudTrail Audit Logs<br/>Security Cam Footage<br/>7 year retention"]
+
+        IAM["🔑 IAM<br/>AdminUser → Full access<br/>DevTeam → EC2,RDS,S3<br/>EC2-Role → S3+RDS<br/>Billing-View → Read billing"]
+
+        CW["☁️ CloudWatch<br/>School Control Room"]
+
+        CT["📜 CloudTrail<br/>Security Camera System<br/>Records all API calls"]
+    end
+
+    User["👤 User"]
+    User --> R53
+    R53 --> WAF
+    WAF --> IGW
+    IGW --> ALB
+    ALB --> AZ1
+    ALB --> AZ2
+    ASG -.-> Web1
+    ASG -.-> App1
+    ASG -.-> Web2
+    ASG -.-> App2
+    App1 -.-> RDS_P
+    App2 -.-> RDS_P
+    RDS_P -.->|"Replication"| RDS_B
+
+    style AWS fill:#1a1a2e,color:#fff,stroke:#ff9900,stroke-width:3px
+    style VPC fill:#0d1b2a,color:#fff,stroke:#2ecc40,stroke-width:2px
+    style AZ1 fill:#1a1a2e,color:#fff,stroke:#3498db,stroke-width:1px
+    style AZ2 fill:#1a1a2e,color:#fff,stroke:#3498db,stroke-width:1px
+    style PubSub1 fill:#1a6b1a,color:#fff
+    style PubSub2 fill:#1a6b1a,color:#fff
+    style PrivSub1 fill:#6b1a1a,color:#fff
+    style PrivSub2 fill:#6b1a1a,color:#fff
+    style R53 fill:#ff9900,color:#000
+    style WAF fill:#e74c3c,color:#fff
+    style IGW fill:#ff9900,color:#000
+    style NAT1 fill:#ff9900,color:#000
+    style NAT2 fill:#ff9900,color:#000
+    style Web1 fill:#3498db,color:#fff
+    style Web2 fill:#3498db,color:#fff
+    style App1 fill:#3498db,color:#fff
+    style App2 fill:#3498db,color:#fff
+    style RDS_P fill:#2d3748,color:#fff
+    style RDS_B fill:#2d3748,color:#fff
+    style ASG fill:#ff9900,color:#000
+    style ALB fill:#e74c3c,color:#fff
+    style S3 fill:#ff9900,color:#000
+    style S3_CT fill:#ff9900,color:#000
+    style IAM fill:#2ecc40,color:#000
+    style CW fill:#3498db,color:#fff
+    style CT fill:#3498db,color:#fff
+    style User fill:#e74c3c,color:#fff
 ```
-╔══════════════════════════════════════════════════════════════════════════════════════╗
-║                              AWS CLOUD — (ap-south-1 / Mumbai)                      ║
-║                                                                                      ║
-║  ┌────────────────────────────────────────────────────────────────────────────────┐  ║
-║  │                         ROUTE 53 (DNS - School Directory)                       │  ║
-║  │                       notebookly.com → ELB DNS Name                             │  ║
-║  └────────────────────────────────────────────────────────────────────────────────┘  ║
-║                                      │                                                ║
-║                                      ▼                                                ║
-║                          ┌──────────────────────┐                                    ║
-║                          │   WAF (Web ACL)      │  ← Filters malicious traffic      ║
-║                          │   Security Guard     │                                    ║
-║                          └──────────────────────┘                                    ║
-║                                      │                                                ║
-║                                      ▼                                                ║
-║  ┌────────────────────────────────────────────────────────────────────────────────┐  ║
-║  │                    INTERNET GATEWAY (Main School Gate)                          │  ║
-║  └────────────────────────────────────────────────────────────────────────────────┘  ║
-║                                      │                                                ║
-║                                     ════                                               ║
-║  ┌────────────────────────────────────────────────────────────────────────────────┐  ║
-║  │                        VPC: 10.0.0.0/16 (The School Campus)                    │  ║
-║  │                                                                                │  ║
-║  │   ╔══════════════════════════════════╗  ╔══════════════════════════════════╗   │  ║
-║  │   ║     AZ-1 (Building A)            ║  ║     AZ-2 (Building B)            ║   │  ║
-║  │   ║                                  ║  ║                                  ║   │  ║
-║  │   ║  ┌─────────────────────────┐    ║  ║  ┌─────────────────────────┐    ║   │  ║
-║  │   ║  │ PUBLIC SUBNET-A         │    ║  ║  │ PUBLIC SUBNET-B         │    ║   │  ║
-║  │   ║  │ 10.0.1.0/24            │    ║  ║  │ 10.0.2.0/24            │    ║   │  ║
-║  │   ║  │ (Science Wing)          │    ║  ║  │ (Arts Wing)             │    ║   │  ║
-║  │   ║  │                         │    ║  ║  │                         │    ║   │  ║
-║  │   ║  │  ┌─────────────────┐   │    ║  ║  │  ┌─────────────────┐   │    ║   │  ║
-║  │   ║  │  │  NAT Gateway     │   │    ║  ║  │  │  NAT Gateway     │   │    ║   │  ║
-║  │   ║  │  │  (Staff Exit)   │   │    ║  ║  │  │  (Staff Exit)   │   │    ║   │  ║
-║  │   ║  │  └─────────────────┘   │    ║  ║  │  └─────────────────┘   │    ║   │  ║
-║  │   ║  └─────────────────────────┘    ║  ║  └─────────────────────────┘    ║   │  ║
-║  │   ║                                  ║  ║                                  ║   │  ║
-║  │   ║  ┌─────────────────────────┐    ║  ║  ┌─────────────────────────┐    ║   │  ║
-║  │   ║  │ PRIVATE SUBNET-A        │    ║  ║  │ PRIVATE SUBNET-B        │    ║   │  ║
-║  │   ║  │ 10.0.3.0/24            │    ║  ║  │ 10.0.4.0/24            │    ║   │  ║
-║  │   ║  │ (Admin Block)          │    ║  ║  │ (Admin Block)           │    ║   │  ║
-║  │   ║  │                         │    ║  ║  │                         │    ║   │  ║
-║  │   ║  │  ┌─────────────────┐   │    ║  ║  │  ┌─────────────────┐   │    ║   │  ║
-║  │   ║  │  │  EC2 Web Server │   │    ║  ║  │  │  EC2 Web Server │   │    ║   │  ║
-║  │   ║  │  │  (Students)     │   │    ║  ║  │  │  (Students)     │   │    ║   │  ║
-║  │   ║  │  └─────────────────┘   │    ║  ║  │  └─────────────────┘   │    ║   │  ║
-║  │   ║  │                         │    ║  ║  │                         │    ║   │  ║
-║  │   ║  │  ┌─────────────────┐   │    ║  ║  │  ┌─────────────────┐   │    ║   │  ║
-║  │   ║  │  │  EC2 App Server │   │    ║  ║  │  │  EC2 App Server │   │    ║   │  ║
-║  │   ║  │  │  (Students)     │   │    ║  ║  │  │  (Students)     │   │    ║   │  ║
-║  │   ║  │  └─────────────────┘   │    ║  ║  │  └─────────────────┘   │    ║   │  ║
-║  │   ║  │                         │    ║  ║  │                         │    ║   │  ║
-║  │   ║  │  ┌─────────────────┐   │    ║  ║  │  ┌─────────────────┐   │    ║   │  ║
-║  │   ║  │  │  RDS Read Replica│   │    ║  ║  │  │  RDS Primary    │   │    ║   │  ║
-║  │   ║  │  │  (Library Branch)│   │    ║  ║  │  │  (Main Library) │   │    ║   │  ║
-║  │   ║  │  └─────────────────┘   │    ║  ║  │  └─────────────────┘   │    ║   │  ║
-║  │   ║  └─────────────────────────┘    ║  ║  └─────────────────────────┘    ║   │  ║
-║  │   ╚══════════════════════════════════╝  ╚══════════════════════════════════╝   │  ║
-║  │                                                                                │  ║
-║  │   ┌────────────────────────────────────────────────────────────────────────┐  │  ║
-║  │   │                         AUTO SCALING GROUP                              │  │  ║
-║  │   │  (School: Automatic hiring of teachers based on student count)          │  │  ║
-║  │   │  • Min: 2 (AZ-a + AZ-b)  • Max: 10  • Desired: 2                      │  │  ║
-║  │   │  • Scale out: CPU > 70% for 5 mins                                    │  │  ║
-║  │   │  • Scale in: CPU < 30% for 15 mins                                    │  │  ║
-║  │   └────────────────────────────────────────────────────────────────────────┘  │  ║
-║  │                                                                                │  ║
-║  │   ┌────────────────────────────────────────────────────────────────────────┐  │  ║
-║  │   │              APPLICATION LOAD BALANCER (ALB)                            │  │  ║
-║  │   │  (School Receptionist — forwards visitors to correct classroom)          │  │  ║
-║  │   │  • Internet-facing                                                      │  │  ║
-║  │   │  • Listener: HTTP:80 → HTTPS:443 redirect                              │  │  ║
-║  │   │  • Target group: EC2 instances in Auto Scaling Group                   │  │  ║
-║  │   │  • Health check: /health → 200 OK                                      │  │  ║
-║  │   └────────────────────────────────────────────────────────────────────────┘  │  ║
-║  │                                                                                │  ║
-║  └────────────────────────────────────────────────────────────────────────────────┘  ║
-║                                                                                      ║
-║   ┌──────────────────────────┐    ┌──────────────────────────────────────────────┐   ║
-║   │   S3 BUCKET              │    │   S3 BUCKET                                   │   ║
-║   │   (Central Document      │    │   (CloudTrail Audit Logs —                   │   ║
-║   │    Storage / Library)    │    │    Security Camera Footage)                   │   ║
-║   │   • Product images       │    │   • All API call logs                        │   ║
-║   │   • Static assets        │    │   • 7 year retention                         │   ║
-║   │   • Backups              │    │   • Log file validation enabled             │   ║
-║   └──────────────────────────┘    └──────────────────────────────────────────────┘   ║
-║                                                                                      ║
-║   ┌──────────────────────────────────────────────────────────────────────────────┐   ║
-║   │   IAM (School ID Management System)                                          │   ║
-║   │   • AdminUser → Full access (Principal)                                      │   ║
-║   │   • DevTeam → EC2, RDS, S3 read/write (Teachers)                             │   ║
-║   │   • EC2-Role → S3 read access, RDS access (Role for EC2)                    │   ║
-║   │   • Billing-View → Read billing only (Accountant)                            │   ║
-║   └──────────────────────────────────────────────────────────────────────────────┘   ║
-║                                                                                      ║
-║   ┌──────────────────────────┐    ┌──────────────────────────────────────────────┐   ║
-║   │   CLOUDWATCH              │    │   CLOUDTRAIL                                 │   ║
-║   │   (School Control Room)  │    │   (Security Camera System)                   │   ║
-║   │   • CPU alarms           │    │   • Records all API calls                    │   ║
-║   │   • ASG monitoring       │    │   • Logs in S3 for 7 years                  │   ║
-║   │   • Error log insights   │    │   • Insights for anomaly detection           │   ║
-║   │   • Billing alarm ($10)  │    │   • Real-time to CloudWatch Logs             │   ║
-║   └──────────────────────────┘    └──────────────────────────────────────────────┘   ║
-║                                                                                      ║
-╚══════════════════════════════════════════════════════════════════════════════════════╝
 ```
 
 ---
@@ -612,56 +604,43 @@ Validation:
 
 Here is what happens when a user visits notebookly.com:
 
-```
-User types: https://notebookly.com
-         │
-         ▼
-┌──────────────────┐
-│  ROUTE 53        │  ← Looks up DNS record
-│  (Directory)     │  → Returns ALB's DNS name
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│  WAF             │  ← Checks for malicious traffic
-│  (Security)      │  → Blocks known bad actors
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│  INTERNET GATEWAY│  ← Allows traffic into VPC
-│  (Main Gate)     │
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│  ALB             │  ← Receives request
-│  (Receptionist)  │  → Checks health of all EC2s
-│                  │  → Forwards to healthy EC2 in any AZ
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│  WEB SERVER (EC2)│  ← Serves static content (from S3)
-│  (Student)       │  → Calls App Server for dynamic data
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│  APP SERVER (EC2)│  ← Processes business logic
-│  (Student)       │  → Queries RDS for data
-└────────┬─────────┘
-         │
-         ▼
-┌──────────────────┐
-│  RDS DATABASE    │  ← Returns query results
-│  (Library)       │  → Response flows back to user
-└──────────────────┘
+```mermaid
+graph TB
+    User["👤 User types:<br/>https://notebookly.com"]
+    R53["📋 Route 53 (Directory)<br/>Looks up DNS record<br/>Returns ALB's DNS name"]
+    WAF["🛡️ WAF (Security)<br/>Checks for malicious traffic<br/>Blocks known bad actors"]
+    IGW["🌐 Internet Gateway<br/>(Main Gate)<br/>Allows traffic into VPC"]
+    ALB["⚖️ ALB (Receptionist)<br/>Receives request<br/>Checks EC2 health<br/>Forwards to healthy EC2"]
+    WebEC2["🖥️ Web Server EC2 (Student)<br/>Serves static content from S3<br/>Calls App Server for data"]
+    AppEC2["🖥️ App Server EC2 (Student)<br/>Processes business logic<br/>Queries RDS"]
+    RDS["🗄️ RDS Database (Library)<br/>Returns query results<br/>Response flows back to user"]
 
-ALL OF THIS IS MONITORED BY:
-├── CloudWatch  (CPU, errors, performance)
-├── CloudTrail  (API calls, audit trail)
-└── IAM         (Who can access what)
+    User --> R53
+    R53 --> WAF
+    WAF --> IGW
+    IGW --> ALB
+    ALB --> WebEC2
+    WebEC2 --> AppEC2
+    AppEC2 --> RDS
+
+    subgraph Monitoring["All of this is monitored by:"]
+        CW["☁️ CloudWatch<br/>CPU, errors, performance"]
+        CT["📜 CloudTrail<br/>API calls, audit trail"]
+        IAM["🔑 IAM<br/>Who can access what"]
+    end
+
+    style User fill:#e74c3c,color:#fff
+    style R53 fill:#ff9900,color:#000
+    style WAF fill:#e74c3c,color:#fff
+    style IGW fill:#ff9900,color:#000
+    style ALB fill:#3498db,color:#fff
+    style WebEC2 fill:#1a6b1a,color:#fff
+    style AppEC2 fill:#1a6b1a,color:#fff
+    style RDS fill:#2d3748,color:#fff
+    style Monitoring fill:#0d1b2a,color:#fff,stroke:#ff9900
+    style CW fill:#1a3a6b,color:#fff
+    style CT fill:#1a3a6b,color:#fff
+    style IAM fill:#1a3a6b,color:#fff
 ```
 
 ---
@@ -682,64 +661,70 @@ ALL OF THIS IS MONITORED BY:
 
 ## ❓ Quick Quiz
 
-**Question 1:** Why should you deploy EC2 instances in private subnets instead of public subnets?
+import Quiz from '@site/src/components/Quiz';
 
-```
-A) Private subnets are faster
-B) Private subnets are cheaper
-C) Private subnets do not have direct internet exposure,
-   reducing the attack surface
-D) Private subnets can access the internet, public subnets cannot
-```
-**Answer: C** — Instances in private subnets cannot be directly reached from the internet. The ALB acts as the single entry point, and instances communicate through the NAT Gateway for outbound traffic.
-
----
-
-**Question 2:** What happens if an EC2 instance fails its health check in an Auto Scaling Group behind an ALB?
-
-```
-A) The ALB continues sending traffic to it
-B) Auto Scaling terminates it and launches a new one
-C) CloudWatch sends an email
-D) Both B and C
-```
-**Answer: D** — The ALB stops sending traffic to the unhealthy instance, Auto Scaling terminates it and launches a replacement, and if CloudWatch alarms are configured, the team gets notified.
-
----
-
-**Question 3:** Your website is experiencing high traffic. Which two services work together to automatically handle this?
-
-```
-A) IAM and S3
-B) Auto Scaling and ALB
-C) CloudTrail and Route 53
-D) NAT Gateway and VPC
-```
-**Answer: B** — Auto Scaling automatically adds more EC2 instances when CPU is high, and the ALB distributes traffic among all instances.
-
----
-
-**Question 4:** In the complete architecture, which component is the single entry point for all user traffic?
-
-```
-A) NAT Gateway
-B) Internet Gateway
-C) Application Load Balancer
-D) Route 53
-```
-**Answer: C** — The ALB is the single entry point for application traffic. Route 53 resolves DNS, Internet Gateway allows VPC access, but the ALB is where traffic is actually received and forwarded.
-
----
-
-**Question 5:** What is the minimum number of Availability Zones needed for a highly available production architecture?
-
-```
-A) 1
-B) 2
-C) 3
-D) 4
-```
-**Answer: B** — At least 2 AZs are needed so that if one AZ fails, the application continues running in the other. AWS recommends 3 AZs for even higher availability.
+<Quiz questions={[
+    {
+        "id": 1,
+        "question": "Why should you deploy EC2 instances in private subnets instead of public subnets?",
+        "options": [
+            "Private subnets are faster",
+            "Private subnets are cheaper",
+            "Private subnets do not have direct internet exposure,",
+            "Private subnets can access the internet, public subnets cannot"
+        ],
+        "correct": 2,
+        "explanation": "Instances in private subnets cannot be directly reached from the internet. The ALB acts as the single entry point, and instances communicate through the NAT Gateway for outbound traffic."
+    },
+    {
+        "id": 2,
+        "question": "What happens if an EC2 instance fails its health check in an Auto Scaling Group behind an ALB?",
+        "options": [
+            "The ALB continues sending traffic to it",
+            "Auto Scaling terminates it and launches a new one",
+            "CloudWatch sends an email",
+            "Both B and C"
+        ],
+        "correct": 3,
+        "explanation": "The ALB stops sending traffic to the unhealthy instance, Auto Scaling terminates it and launches a replacement, and if CloudWatch alarms are configured, the team gets notified."
+    },
+    {
+        "id": 3,
+        "question": "Your website is experiencing high traffic. Which two services work together to automatically handle this?",
+        "options": [
+            "IAM and S3",
+            "Auto Scaling and ALB",
+            "CloudTrail and Route 53",
+            "NAT Gateway and VPC"
+        ],
+        "correct": 1,
+        "explanation": "Auto Scaling automatically adds more EC2 instances when CPU is high, and the ALB distributes traffic among all instances."
+    },
+    {
+        "id": 4,
+        "question": "In the complete architecture, which component is the single entry point for all user traffic?",
+        "options": [
+            "NAT Gateway",
+            "Internet Gateway",
+            "Application Load Balancer",
+            "Route 53"
+        ],
+        "correct": 2,
+        "explanation": "The ALB is the single entry point for application traffic. Route 53 resolves DNS, Internet Gateway allows VPC access, but the ALB is where traffic is actually received and forwarded."
+    },
+    {
+        "id": 5,
+        "question": "What is the minimum number of Availability Zones needed for a highly available production architecture?",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4"
+        ],
+        "correct": 1,
+        "explanation": "At least 2 AZs are needed so that if one AZ fails, the application continues running in the other. AWS recommends 3 AZs for even higher availability."
+    }
+]} />
 
 ---
 

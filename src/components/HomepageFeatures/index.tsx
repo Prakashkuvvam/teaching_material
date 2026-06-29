@@ -1,4 +1,5 @@
 import type {ReactNode} from 'react';
+import Link from '@docusaurus/Link';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
@@ -74,9 +75,9 @@ function FeatureCard({title, emoji, description, link, status, chapterCount}: Fe
         </div>
         <div className="card__footer">
           {status === 'ready' ? (
-            <a href={link} className="button button--primary button--block">
+            <Link to={link} className="button button--primary button--block">
               Start Learning →
-            </a>
+            </Link>
           ) : (
             <button className="button button--secondary button--block" disabled>
               Coming Soon

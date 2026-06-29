@@ -1,8 +1,12 @@
 import {useEffect, type ReactNode} from 'react';
+import {useLocation} from '@docusaurus/router';
 import BackToTopButton from '../components/BackToTopButton';
 import ProgressTracker from '../components/ProgressTracker';
 
 export default function Root({children}: {children: ReactNode}) {
+  const location = useLocation();
+  const isDocPage = location.pathname.match(/\/docs\//);
+
   useEffect(() => {
     const saved = localStorage.getItem('sidebar-collapsed');
     if (saved === 'true') {
@@ -36,6 +40,13 @@ export default function Root({children}: {children: ReactNode}) {
       document.body.removeChild(btn);
     };
   }, []);
+
+  useEffect(() => {
+    const btn = document.getElementById('sidebar-toggle');
+    if (btn) {
+      btn.style.display = isDocPage ? '' : 'none';
+    }
+  }, [isDocPage]);
 
   return (
     <>

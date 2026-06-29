@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+import {useLocation} from '@docusaurus/router';
 import styles from './styles.module.css';
 
 const STORAGE_KEY = 'chapter-progress';
@@ -31,11 +32,12 @@ function toggleChapter(slug: string): string[] {
 export default function ProgressTracker() {
   const [completed, setCompleted] = useState<string[]>([]);
   const [currentSlug, setCurrentSlug] = useState<string | null>(null);
+  const location = useLocation();
 
   useEffect(() => {
     setCompleted(getCompleted());
     setCurrentSlug(getSlug());
-  }, []);
+  }, [location.pathname]);
 
   const handleToggle = () => {
     if (!currentSlug) return;

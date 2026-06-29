@@ -30,7 +30,10 @@ const config: Config = {
     locales: ['en'],
   },
 
-  themes: ['@docusaurus/theme-mermaid'],
+  themes: [
+    '@docusaurus/theme-mermaid',
+    'docusaurus-lunr-search',
+  ],
 
   presets: [
     [
@@ -39,6 +42,7 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           editUrl: 'https://github.com/prakashkuvvam/teaching_material/edit/main/',
+          breadcrumbs: true,
         },
         blog: false,
         theme: {
@@ -53,6 +57,11 @@ const config: Config = {
     colorMode: {
       defaultMode: 'dark',
       respectPrefersColorScheme: true,
+    },
+    docs: {
+      sidebar: {
+        autoCollapseCategories: true,
+      },
     },
     navbar: {
       title: 'DevOps Learning Hub',

@@ -69,3 +69,78 @@ html.sidebar-collapsed .theme-doc-sidebar-container {
 .theme-doc-sidebar-container {
   transition: width 0.2s ease, min-width 0.2s ease, opacity 0.15s ease;
 }
+
+/* ── Mobile Improvements ── */
+
+/* Responsive font scaling */
+@media (max-width: 996px) {
+  html {
+    font-size: 15px;
+  }
+  .card-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+  .navbar__brand {
+    font-size: 0.9rem;
+  }
+}
+
+/* Mobile sidebar: hide toggle, let Docusaurus native hamburger handle it */
+@media (max-width: 996px) {
+  #sidebar-toggle {
+    display: none !important;
+  }
+  html.sidebar-collapsed .theme-doc-sidebar-container {
+    width: var(--doc-sidebar-width) !important;
+    min-width: var(--doc-sidebar-width) !important;
+    opacity: 1;
+    overflow: auto;
+  }
+}
+
+/* Better tables on mobile */
+@media (max-width: 600px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* Code blocks responsive */
+@media (max-width: 996px) {
+  pre {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
+
+/* Improve heading readability on small screens */
+@media (max-width: 768px) {
+  h1 { font-size: 1.6rem; }
+  h2 { font-size: 1.3rem; }
+  h3 { font-size: 1.1rem; }
+}
+
+/* Navbar wrap prevention on small screens */
+@media (max-width: 400px) {
+  .navbar__items--right {
+    display: none;
+  }
+}
+
+/* Breadcrumb mobile */
+@media (max-width: 600px) {
+  .theme-doc-breadcrumbs {
+    font-size: 0.8rem;
+  }
+  .breadcrumbs__item {
+    display: inline-flex;
+  }
+}

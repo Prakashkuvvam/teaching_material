@@ -1,4 +1,6 @@
 import {useEffect, type ReactNode} from 'react';
+import BackToTopButton from '../components/BackToTopButton';
+import ProgressTracker from '../components/ProgressTracker';
 
 export default function Root({children}: {children: ReactNode}) {
   useEffect(() => {
@@ -35,5 +37,11 @@ export default function Root({children}: {children: ReactNode}) {
     };
   }, []);
 
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <BackToTopButton />
+      <ProgressTracker />
+    </>
+  );
 }

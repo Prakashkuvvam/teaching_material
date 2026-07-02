@@ -1,6 +1,6 @@
 ---
-title: "Chapter 15 — EFS — Elastic File System"
-sidebar_position: 15
+title: "Chapter 17 — EFS — Elastic File System"
+sidebar_position: 17
 description: "By the end of this chapter, you will be able to: Explain what EFS is and how it differs from EBS"
 ---
 

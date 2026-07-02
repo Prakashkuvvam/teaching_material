@@ -1,6 +1,6 @@
 ---
-title: "Chapter 18 — Elastic Load Balancer (ELB)"
-sidebar_position: 18
+title: "Chapter 20 — Elastic Load Balancer (ELB)"
+sidebar_position: 20
 description: "By the end of this chapter, you will be able to: Explain what an Elastic Load Balancer (ELB) is and why it is needed"
 ---
 

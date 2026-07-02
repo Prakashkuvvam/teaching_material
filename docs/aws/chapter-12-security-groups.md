@@ -1,6 +1,6 @@
 ---
-title: "Chapter 10 — Security Groups"
-sidebar_position: 10
+title: "Chapter 12 — Security Groups"
+sidebar_position: 12
 description: "By the end of this chapter, you will be able to: Explain what a Security Group is"
 ---
 
@@ -233,7 +233,7 @@ STEP 4: Outbound Rules:
 STEP 5: Click "Create security group"
 
 ✅ Your Security Group is ready!
-   You will attach it to an EC2 instance in Chapter 12.
+   You will attach it to an EC2 instance in Chapter 14.
 ```
 
 ---

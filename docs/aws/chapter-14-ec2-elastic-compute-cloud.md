@@ -1,6 +1,6 @@
 ---
-title: "Chapter 12 — EC2 — Elastic Compute Cloud"
-sidebar_position: 12
+title: "Chapter 14 — EC2 — Elastic Compute Cloud"
+sidebar_position: 14
 description: "By the end of this chapter, you will be able to: Explain what an EC2 instance is"
 ---
 

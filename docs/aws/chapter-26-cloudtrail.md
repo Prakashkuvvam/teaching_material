@@ -1,6 +1,6 @@
 ---
-title: "Chapter 23 — CloudTrail — Audit Logging"
-sidebar_position: 23
+title: "Chapter 26 — CloudTrail — Audit Logging"
+sidebar_position: 26
 description: "By the end of this chapter, you will be able to: Explain what CloudTrail is and why it matters"
 ---
 

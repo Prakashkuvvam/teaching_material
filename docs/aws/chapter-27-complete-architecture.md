@@ -1,12 +1,12 @@
 ---
-title: "Chapter 24 — Building a Complete AWS Architecture"
-sidebar_position: 24
+title: "Chapter 27 — Building a Complete AWS Architecture"
+sidebar_position: 27
 description: "Learn about building a complete aws architecture"
 ---
 
 ## 🎯 Chapter Goal
 
-You have learned 23 individual AWS services. Now it is time to put every single piece together and see how they interact in a real-world, production-ready architecture.
+You have learned 26 individual AWS services. Now it is time to put every single piece together and see how they interact in a real-world, production-ready architecture.
 
 By the end of this chapter, you will be able to:
 
@@ -149,7 +149,7 @@ graph TB
 
 ---
 
-## 📚 Complete Recap — All 24 Chapters in One View
+## 📚 Complete Recap — All 27 Chapters in One View
 
 Let us walk through every service in this architecture and see how it maps to our school.
 
@@ -199,76 +199,97 @@ Let us walk through every service in this architecture and see how it maps to ou
 ║  │  One NAT Gateway per AZ for high availability.                                │      ║
 ║  └───────────────────────────────────────────────────────────────────────────────┘      ║
 ║                                                                                         ║
-║  ┌────── CHAPTER 10-11: SECURITY GROUPS & NACLs ────────────────────────────────┐      ║
+║  ┌────── CHAPTER 10: VPC PEERING ───────────────────────────────────────────────┐      ║
+║  │  The private bridge connecting two school campuses. When the main campus       │      ║
+║  │  needs to share resources with the sports complex or sister school, VPC        │      ║
+║  │  Peering creates a direct, private link. No public roads, no internet.        │      ║
+║  │  Remember: no transitive routing — each campus needs its own bridge.          │      ║
+║  └───────────────────────────────────────────────────────────────────────────────┘      ║
+║                                                                                         ║
+║  ┌────── CHAPTER 11: VPC ENDPOINTS & PRIVATELINK ───────────────────────────────┐      ║
+║  │  The private delivery room built into the campus wall. Staff access AWS        │      ║
+║  │  services (S3, SQS, SNS, etc.) without ever leaving the campus or using the    │      ║
+║  │  public internet. Gateway Endpoints for S3/DynamoDB (free). Interface          │      ║
+║  │  Endpoints for other services (powered by AWS PrivateLink).                   │      ║
+║  └───────────────────────────────────────────────────────────────────────────────┘      ║
+║                                                                                         ║
+║  ┌────── CHAPTER 12-13: SECURITY GROUPS & NACLs ────────────────────────────────┐      ║
 ║  │  Security Groups are the guards at each classroom door (stateful — allow out   │      ║
 ║  │  automatically). NACLs are the guards at each wing entrance (stateless —       │      ║
 ║  │  check both ways). SG: "Allow HTTP from ALB only." NACL: "Allow ephemeral      │      ║
 ║  │  ports 1024-65535 from VPC CIDR."                                             │      ║
 ║  └───────────────────────────────────────────────────────────────────────────────┘      ║
 ║                                                                                         ║
-║  ┌────── CHAPTER 12: EC2 ───────────────────────────────────────────────────────┐      ║
+║  ┌────── CHAPTER 14: EC2 ───────────────────────────────────────────────────────┐      ║
 │  EC2 instances are the students — they do the actual computing work. Web       │      ║
 │  servers run Nginx/Apache. App servers run the backend code. AMIs provide the   │      ║
 │  pre-configured template for launching these instances consistently.           │      ║
 └───────────────────────────────────────────────────────────────────────────────┘      ║
 ║                                                                                         ║
-║  ┌────── CHAPTER 13-14: AMI & EBS ─────────────────────────────────────────────┐      ║
+║  ┌────── CHAPTER 15-16: AMI & EBS ─────────────────────────────────────────────┐      ║
 │  AMIs are the master computer images — pre-installed software ready for new    │      ║
 │  students. EBS volumes are the students' lockers — persistent block storage    │      ║
 │  attached to each EC2 instance. Snapshots back up locker contents.             │      ║
 └───────────────────────────────────────────────────────────────────────────────┘      ║
 ║                                                                                         ║
-║  ┌────── CHAPTER 15: EFS ───────────────────────────────────────────────────────┐      ║
+║  ┌────── CHAPTER 17: EFS ───────────────────────────────────────────────────────┐      ║
 │  The school library — shared file storage that multiple EC2 instances can       │      ║
 │  mount simultaneously across different Availability Zones. Unlike EBS, EFS     │      ║
 │  is accessible from anywhere on campus and scales automatically.               │      ║
 └───────────────────────────────────────────────────────────────────────────────┘      ║
 ║                                                                                         ║
-║  ┌────── CHAPTER 16: S3 ────────────────────────────────────────────────────────┐      ║
+║  ┌────── CHAPTER 18: S3 ────────────────────────────────────────────────────────┐      ║
 │  The central document archive. Stores all static files — product images,        │      ║
 │  CSS/JS assets, backups, CloudTrail logs. Practically unlimited storage,       │      ║
 │  99.999999999% durability. Lifecycle rules move old files to Glacier.          │      ║
 └───────────────────────────────────────────────────────────────────────────────┘      ║
 ║                                                                                         ║
-║  ┌────── CHAPTER 17: IAM ───────────────────────────────────────────────────────┐      ║
+║  ┌────── CHAPTER 19: IAM ───────────────────────────────────────────────────────┐      ║
 │  The school ID management system. Every person has a role: Principal (root),   │      ║
 │  Teachers (developers), Students (apps). Each gets only the permissions they    │      ║
 │  need. EC2 instances assume IAM Roles to access S3 and RDS.                   │      ║
 └───────────────────────────────────────────────────────────────────────────────┘      ║
 ║                                                                                         ║
-║  ┌────── CHAPTER 18: LOAD BALANCER (ELB/ALB) ───────────────────────────────────┐      ║
+║  ┌────── CHAPTER 20: LOAD BALANCER (ELB/ALB) ───────────────────────────────────┐      ║
 ║  │  The school receptionist. When 50,000 visitors arrive, the receptionist        │      ║
 ║  │  distributes them evenly across all available classrooms so no single room     │      ║
 ║  │  is overloaded. Also performs health checks — only sends visitors to          │      ║
 ║  │  classrooms that are open and functioning.                                    │      ║
 ║  └───────────────────────────────────────────────────────────────────────────────┘      ║
 ║                                                                                         ║
-║  ┌────── CHAPTER 19: AUTO SCALING ───────────────────────────────────────────────┐      ║
+║  ┌────── CHAPTER 21: AUTO SCALING ───────────────────────────────────────────────┐      ║
 ║  │  During exam season (high traffic), the school automatically hires temporary    │      ║
 ║  │  teachers and opens more classrooms. During holidays (low traffic), it          │      ║
 ║  │  releases them. No human decides — the system does it automatically based      │      ║
 ║  │  on rules (CPU > 70% → add more EC2 instances).                               │      ║
 ║  └───────────────────────────────────────────────────────────────────────────────┘      ║
 ║                                                                                         ║
-║  ┌────── CHAPTER 20: RDS ───────────────────────────────────────────────────────┐      ║
+║  ┌────── CHAPTER 22: RDS ───────────────────────────────────────────────────────┐      ║
 ║  │  The school library. All data is stored here — student records, orders,         │      ║
 ║  │  inventory. RDS manages the database for us (backups, patching, replication).   │      ║
 ║  │  Multi-AZ deployment: library in Building A has a backup copy in Building B.   │      ║
 ║  └───────────────────────────────────────────────────────────────────────────────┘      ║
 ║                                                                                         ║
-║  ┌────── CHAPTER 21: ROUTE 53 ───────────────────────────────────────────────────┐      ║
+║  ┌────── CHAPTER 23: ROUTE 53 ───────────────────────────────────────────────────┐      ║
 ║  │  The school directory / phonebook. When a user types "notebookly.com," R53      │      ║
 ║  │  looks up the IP address of our load balancer and directs the user there.      │      ║
 ║  │  Also provides health checks and routing policies (latency, geo, failover).   │      ║
 ║  └───────────────────────────────────────────────────────────────────────────────┘      ║
 ║                                                                                         ║
-║  ┌────── CHAPTER 22: CLOUDWATCH ────────────────────────────────────────────────┐      ║
+║  ┌────── CHAPTER 24: CLOUDFRONT ─────────────────────────────────────────────────┐      ║
+║  │  The global network of branch libraries. CloudFront caches content at 600+     │      ║
+║  │  Edge Locations worldwide so users in Delhi, Bangalore, and London all get     │      ║
+║  │  the same fast experience. Works with S3, ALB, or custom origins. Includes     │      ║
+║  │  DDoS protection via AWS Shield and web security via AWS WAF.                 │      ║
+║  └───────────────────────────────────────────────────────────────────────────────┘      ║
+║                                                                                         ║
+║  ┌────── CHAPTER 25: CLOUDWATCH ────────────────────────────────────────────────┐      ║
 ║  │  The school control room. Real-time monitoring of every classroom. CPU         │      ║
 ║  │  metrics, error logs, billing alarms. When CPU of our web servers hits 80%,   │      ║
 ║  │  an alarm triggers and an email/SMS is sent to the DevOps team.                │      ║
 ║  └───────────────────────────────────────────────────────────────────────────────┘      ║
 ║                                                                                         ║
-║  ┌────── CHAPTER 23: CLOUDTRAIL ─────────────────────────────────────────────────┐      ║
+║  ┌────── CHAPTER 26: CLOUDTRAIL ─────────────────────────────────────────────────┐      ║
 ║  │  The security camera system and visitor log. Every API call recorded: WHO      │      ║
 ║  │  deleted that S3 bucket, WHEN was the security group modified, WHERE did the   │      ║
 ║  │  API call come from. Logs stored in S3 for compliance.                        │      ║
@@ -289,10 +310,10 @@ Let us build Rahul's Notebookly application from scratch, step by step. This is 
 STEP 1: Create AWS Account (Chapter 2)
          → Sign up for AWS Free Tier
          → Enable billing alerts in CloudWatch
-         → Create a Trail in CloudTrail (Chapter 23)
-           (Do this BEFORE launching any resources!)
+         → Create a Trail in CloudTrail (Chapter 26)
+            (Do this BEFORE launching any resources!)
 
-STEP 2: Create IAM Users (Chapter 17)
+STEP 2: Create IAM Users (Chapter 19)
          → Create Admin group with AdministratorAccess
          → Create user: admin-rahul (add to Admin group)
          → Enable MFA on root account
@@ -337,7 +358,7 @@ STEP 7: Create Route Tables (Chapter 7)
             • 0.0.0.0/0 → NAT-GW-AZ2
             • Associate with Private Subnet AZ-2
 
-STEP 8: Create Security Groups (Chapter 10)
+STEP 8: Create Security Groups (Chapter 12)
          → ALB-SG:
             • Inbound: HTTP (80), HTTPS (443) from 0.0.0.0/0
             • Outbound: Allow all
@@ -353,7 +374,7 @@ STEP 8: Create Security Groups (Chapter 10)
 ### Phase 4: Compute & Database
 
 ```
-STEP 9: Create RDS Database (Chapter 16)
+STEP 9: Create RDS Database (Chapter 22)
          → Engine: MySQL 8.0
          → DB Instance: db.t3.micro (Free Tier)
          → VPC: Notebookly-VPC
@@ -363,7 +384,7 @@ STEP 9: Create RDS Database (Chapter 16)
          → Automated backups: 7 days retention
          → Storage: 20 GB gp3
 
-STEP 10: Create Application Load Balancer (Chapter 14)
+STEP 10: Create Application Load Balancer (Chapter 20)
           → Name: Notebookly-ALB
           → Scheme: Internet-facing
           → VPC: Notebookly-VPC
@@ -380,7 +401,7 @@ STEP 11: Create Launch Template
           → User data: Script to install app + join ASG
           → Storage: 8 GB gp3
 
-STEP 12: Create Auto Scaling Group (Chapter 15)
+STEP 12: Create Auto Scaling Group (Chapter 21)
           → Name: Notebookly-ASG
           → Launch template: Notebookly-Template
           → VPC: Notebookly-VPC
@@ -404,7 +425,7 @@ STEP 13: Create S3 Buckets (Chapter 18)
              • Enable: Versioning
              • Enable: MFA Delete (prevent accidental deletion)
 
-STEP 14: Set up Route 53 (Chapter 19)
+STEP 14: Set up Route 53 (Chapter 23)
           → Register domain: notebookly.com (or use existing)
           → Create hosted zone: notebookly.com
           → Create A record (Alias):
@@ -416,7 +437,7 @@ STEP 14: Set up Route 53 (Chapter 19)
 ### Phase 6: Monitoring & Audit
 
 ```
-STEP 15: Set up CloudWatch (Chapter 22)
+STEP 15: Set up CloudWatch (Chapter 25)
           → Dashboard: "Notebookly-Production"
              • Widget 1: CPU graph for ASG (avg)
              • Widget 2: RDS connections
@@ -431,7 +452,7 @@ STEP 15: Set up CloudWatch (Chapter 22)
              • Stream EC2 application logs to CloudWatch
              • Create metric filter: "ERROR" → count metric
 
-STEP 16: Verify CloudTrail (Chapter 23)
+STEP 16: Verify CloudTrail (Chapter 26)
           → Trail: Notebookly-Audit-Trail
           → Log to S3: notebookly-logs-and-backups/cloudtrail/
           → Enable: Log file validation
@@ -752,10 +773,10 @@ import Quiz from '@site/src/components/Quiz';
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                 CHAPTER 24 SUMMARY                      │
+│                 CHAPTER 27 SUMMARY                      │
 ├─────────────────────────────────────────────────────────┤
 │                                                         │
-│  ✅ Complete architecture = All 23 chapters combined    │
+│  ✅ Complete architecture = All 26 chapters combined    │
 │  ✅ Three-tier: Web (ALB) → App (EC2) → Data (RDS)     │
 │  ✅ Multi-AZ deployment for high availability           │
 │  ✅ Public subnets for ALB + NAT Gateways              │

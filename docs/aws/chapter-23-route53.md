@@ -1,6 +1,6 @@
 ---
-title: "Chapter 21 — Route 53 — DNS Service"
-sidebar_position: 21
+title: "Chapter 23 — Route 53 — DNS Service"
+sidebar_position: 23
 description: "By the end of this chapter, you will be able to: Explain what DNS is and what Route 53 does"
 ---
 

@@ -9,7 +9,7 @@ BEGINNER PATH (0-3 Months):
 □ Complete this book chapter by chapter
 □ Create AWS Free Tier account
 □ Do every hands-on lab
-□ Build the architecture from Chapter 24
+□ Build the architecture from Chapter 27
 □ Take AWS Cloud Practitioner (CLF-C02) exam
 
 INTERMEDIATE PATH (3-6 Months):

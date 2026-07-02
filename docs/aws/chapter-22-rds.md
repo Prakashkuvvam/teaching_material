@@ -1,6 +1,6 @@
 ---
-title: "Chapter 20 — RDS — Relational Database Service"
-sidebar_position: 20
+title: "Chapter 22 — RDS — Relational Database Service"
+sidebar_position: 22
 description: "By the end of this chapter, you will be able to: Explain what RDS is and the database engines it supports"
 ---
 

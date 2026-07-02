@@ -1,6 +1,6 @@
 ---
-title: "Chapter 11 — Network ACLs (NACLs)"
-sidebar_position: 11
+title: "Chapter 13 — Network ACLs (NACLs)"
+sidebar_position: 13
 description: "By the end of this chapter, you will be able to: Explain what a Network ACL is"
 ---
 

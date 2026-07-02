@@ -1,6 +1,6 @@
 ---
-title: "Chapter 13 — AMI — Amazon Machine Images"
-sidebar_position: 13
+title: "Chapter 15 — AMI — Amazon Machine Images"
+sidebar_position: 15
 description: "By the end of this chapter, you will be able to: Explain what an AMI is and why it matters"
 ---
 
@@ -137,7 +137,7 @@ This is because each region is independent. AWS replicates the AMI across region
 ## 🧪 Hands-On Lab — Create a Custom AMI
 
 ```
-STEP 1: Launch a base EC2 instance (use Chapter 12 steps):
+STEP 1: Launch a base EC2 instance (use Chapter 14 steps):
         AMI: Amazon Linux 2023 (Free Tier)
         Type: t2.micro
         Key Pair: MyKeyPair (or create new)

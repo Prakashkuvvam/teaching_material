@@ -1,6 +1,6 @@
 ---
-title: "Chapter 17 — IAM — Identity & Access Management"
-sidebar_position: 17
+title: "Chapter 19 — IAM — Identity & Access Management"
+sidebar_position: 19
 description: "By the end of this chapter, you will be able to: Explain what IAM is and why it matters"
 ---
 

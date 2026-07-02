@@ -1,6 +1,6 @@
 ---
-title: "Chapter 16 — S3 — Simple Storage Service"
-sidebar_position: 16
+title: "Chapter 18 — S3 — Simple Storage Service"
+sidebar_position: 18
 description: "By the end of this chapter, you will be able to: Explain what S3 is and the bucket/object model"
 ---
 

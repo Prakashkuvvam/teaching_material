@@ -1,6 +1,6 @@
 ---
-title: "Chapter 19 — Auto Scaling"
-sidebar_position: 19
+title: "Chapter 21 — Auto Scaling"
+sidebar_position: 21
 description: "By the end of this chapter, you will be able to: Explain what Auto Scaling is and why it matters"
 ---
 

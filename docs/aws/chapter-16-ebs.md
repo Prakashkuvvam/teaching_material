@@ -1,6 +1,6 @@
 ---
-title: "Chapter 14 — EBS — Elastic Block Store"
-sidebar_position: 14
+title: "Chapter 16 — EBS — Elastic Block Store"
+sidebar_position: 16
 description: "By the end of this chapter, you will be able to: Explain what EBS is and how it differs from instance store"
 ---
 

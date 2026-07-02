@@ -1,6 +1,6 @@
 ---
-title: "Chapter 22 — CloudWatch — Monitoring"
-sidebar_position: 22
+title: "Chapter 25 — CloudWatch — Monitoring"
+sidebar_position: 25
 description: "By the end of this chapter, you will be able to: Explain what CloudWatch is and why monitoring matters"
 ---
 

@@ -116,7 +116,7 @@ const config: Config = {
         {to: '/docs/aws/chapter-01-what-is-cloud-computing', label: '☁️ AWS', position: 'left'},
         {to: '/docs/docker/', label: '🐳 Docker', position: 'left'},
         {to: '/docs/kubernetes/chapter-01-the-big-picture', label: '⚓ K8s', position: 'left'},
-        {to: '/docs/terraform/', label: '🏗️ Terraform', position: 'left'},
+        {to: '/docs/terraform/chapter-01-writing-down-what-you-want', label: '🏗️ Terraform', position: 'left'},
       ],
     },
     footer: {
@@ -128,7 +128,7 @@ const config: Config = {
             {label: '☁️ AWS', to: '/docs/aws/chapter-01-what-is-cloud-computing'},
             {label: '🐳 Docker', to: '/docs/docker/'},
             {label: '⚓ Kubernetes', to: '/docs/kubernetes/chapter-01-the-big-picture'},
-            {label: '🏗️ Terraform', to: '/docs/terraform/'},
+            {label: '🏗️ Terraform', to: '/docs/terraform/chapter-01-writing-down-what-you-want'},
           ],
         },
         {

@@ -53,11 +53,12 @@ const FeatureList: FeatureItem[] = [
     emoji: '🏗️',
     description: (
       <>
-        Infrastructure as Code fundamentals, HCL syntax, modules, state management, and CI/CD integration. Coming soon — build cloud infrastructure with code.
+        22 chapters covering Infrastructure as Code fundamentals, HCL syntax, providers, state management, modules, and more. Learn through the Sharma family's house building story — every concept mapped to building your dream home.
       </>
     ),
-    link: '/docs/terraform/',
-    status: 'coming-soon',
+    link: '/docs/terraform/chapter-01-writing-down-what-you-want',
+    status: 'ready',
+    chapterCount: '22 chapters',
   },
 ];
 

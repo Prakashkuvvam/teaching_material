@@ -41,11 +41,12 @@ const FeatureList: FeatureItem[] = [
     emoji: '⚓',
     description: (
       <>
-        Pods, deployments, services, ingress, storage, Helm, and cluster management. Coming soon — orchestrate your containers with confidence.
+        10 chapters covering Pods, Deployments, Services, Ingress, Storage, and more. Learn every concept through the BMTC bus system story — Bengaluru's transport network makes Kubernetes intuitive.
       </>
     ),
-    link: '/docs/kubernetes/',
-    status: 'coming-soon',
+    link: '/docs/kubernetes/chapter-01-the-big-picture',
+    status: 'ready',
+    chapterCount: '10 chapters',
   },
   {
     title: 'Terraform',

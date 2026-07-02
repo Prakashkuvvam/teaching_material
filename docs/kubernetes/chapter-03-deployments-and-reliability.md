@@ -127,7 +127,7 @@ graph TB
     RS -->|"ensures count matches"| POD1["Pod 1<br/>(Bus 1)"]
     RS --> POD2["Pod 2<br/>(Bus 2)"]
     RS --> POD3["Pod 3<br/>(Bus 3)"]
-    RS -.->|"notices Pod 2 failed"--> POD2X["✗"]
+    POD2 -.->|"fails"| POD2X["✗"]
     RS -->|"creates replacement"| POD4["Pod 4<br/>(Replacement Bus)"]
 ```
 
